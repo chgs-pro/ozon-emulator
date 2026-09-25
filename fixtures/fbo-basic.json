@@ -1,0 +1,727 @@
+{
+  "schemaVersion": 1,
+  "fboEnabled": true,
+  "contractActive": true,
+  "writeEnabled": true,
+  "roleName": "Admin",
+  "clockOffsetSeconds": 0,
+  "draftLifetimeSeconds": 1800,
+  "operationDelaySeconds": 2,
+  "draftFailure": false,
+  "supplyFailure": false,
+  "fault": {
+    "path": "",
+    "phase": "before",
+    "status": 503,
+    "remaining": 0
+  },
+  "products": [
+    {
+      "sku": 910001,
+      "productId": 810001,
+      "offerId": "FBO-TEST-A",
+      "name": "Тестовый товар А",
+      "barcodes": [
+        "2000000000015"
+      ],
+      "volumeLitres": 1.0,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": [],
+      "descriptionCategoryId": 17028922,
+      "typeId": 92851,
+      "attributes": [
+        {
+          "id": 85,
+          "values": [
+            "Тестовый бренд"
+          ]
+        },
+        {
+          "id": 10096,
+          "values": [
+            "белый"
+          ]
+        },
+        {
+          "id": 4604,
+          "values": [
+            "хлопок 95%, эластан 5%"
+          ]
+        },
+        {
+          "id": 4389,
+          "values": [
+            "Россия"
+          ]
+        },
+        {
+          "id": 9533,
+          "values": [
+            "S"
+          ]
+        }
+      ],
+      "dimensions": {
+        "height": 30,
+        "width": 200,
+        "depth": 250,
+        "unit": "mm",
+        "weight": 180,
+        "weightUnit": "g"
+      }
+    },
+    {
+      "sku": 910002,
+      "productId": 810002,
+      "offerId": "FBO-TEST-B",
+      "name": "Тестовый товар Б",
+      "barcodes": [
+        "2000000000022"
+      ],
+      "volumeLitres": 0.5,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": [],
+      "descriptionCategoryId": 17028922,
+      "typeId": 92851,
+      "attributes": [
+        {
+          "id": 85,
+          "values": [
+            "Тестовый бренд"
+          ]
+        },
+        {
+          "id": 10096,
+          "values": [
+            "чёрный"
+          ]
+        },
+        {
+          "id": 4604,
+          "values": [
+            "хлопок 95%, эластан 5%"
+          ]
+        },
+        {
+          "id": 4389,
+          "values": [
+            "Россия"
+          ]
+        },
+        {
+          "id": 9533,
+          "values": [
+            "M"
+          ]
+        }
+      ],
+      "dimensions": {
+        "height": 30,
+        "width": 200,
+        "depth": 250,
+        "unit": "mm",
+        "weight": 190,
+        "weightUnit": "g"
+      }
+    },
+    {
+      "sku": 910003,
+      "productId": 810003,
+      "offerId": "FBO-TEST-C",
+      "name": "Тестовый товар C",
+      "barcodes": [
+        "2000000000039"
+      ],
+      "volumeLitres": 1.0,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": [],
+      "descriptionCategoryId": 17028922,
+      "typeId": 92851,
+      "attributes": [
+        {
+          "id": 85,
+          "values": [
+            "Тестовый бренд"
+          ]
+        },
+        {
+          "id": 10096,
+          "values": [
+            "синий"
+          ]
+        },
+        {
+          "id": 4604,
+          "values": [
+            "хлопок 95%, эластан 5%"
+          ]
+        },
+        {
+          "id": 4389,
+          "values": [
+            "Россия"
+          ]
+        },
+        {
+          "id": 9533,
+          "values": [
+            "L"
+          ]
+        }
+      ],
+      "dimensions": {
+        "height": 30,
+        "width": 200,
+        "depth": 250,
+        "unit": "mm",
+        "weight": 200,
+        "weightUnit": "g"
+      }
+    },
+    {
+      "sku": 910004,
+      "productId": 810004,
+      "offerId": "FBO-TEST-D",
+      "name": "Тестовый товар D",
+      "barcodes": [
+        "2000000000046"
+      ],
+      "volumeLitres": 0.5,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": [],
+      "descriptionCategoryId": 17028922,
+      "typeId": 92851,
+      "attributes": [
+        {
+          "id": 85,
+          "values": [
+            "Тестовый бренд"
+          ]
+        },
+        {
+          "id": 10096,
+          "values": [
+            "красный"
+          ]
+        },
+        {
+          "id": 4604,
+          "values": [
+            "хлопок 95%, эластан 5%"
+          ]
+        },
+        {
+          "id": 4389,
+          "values": [
+            "Россия"
+          ]
+        },
+        {
+          "id": 9533,
+          "values": [
+            "XL"
+          ]
+        }
+      ],
+      "dimensions": {
+        "height": 30,
+        "width": 200,
+        "depth": 250,
+        "unit": "mm",
+        "weight": 210,
+        "weightUnit": "g"
+      }
+    },
+    {
+      "sku": 910005,
+      "productId": 810005,
+      "offerId": "FBO-TEST-E",
+      "name": "Тестовый товар E",
+      "barcodes": [
+        "2000000000053"
+      ],
+      "volumeLitres": 1.0,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": [],
+      "descriptionCategoryId": 17028922,
+      "typeId": 92851,
+      "attributes": [
+        {
+          "id": 85,
+          "values": [
+            "Тестовый бренд"
+          ]
+        },
+        {
+          "id": 10096,
+          "values": [
+            "зелёный"
+          ]
+        },
+        {
+          "id": 4604,
+          "values": [
+            "хлопок 95%, эластан 5%"
+          ]
+        },
+        {
+          "id": 4389,
+          "values": [
+            "Россия"
+          ]
+        },
+        {
+          "id": 9533,
+          "values": [
+            "XXL"
+          ]
+        }
+      ],
+      "dimensions": {
+        "height": 30,
+        "width": 200,
+        "depth": 250,
+        "unit": "mm",
+        "weight": 220,
+        "weightUnit": "g"
+      }
+    },
+    {
+      "sku": 910006,
+      "productId": 810006,
+      "offerId": "FBO-TEST-F",
+      "name": "Тестовый товар F",
+      "barcodes": [
+        "2000000000060"
+      ],
+      "volumeLitres": 0.5,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": [],
+      "descriptionCategoryId": 17028650,
+      "typeId": 93210,
+      "attributes": [
+        {
+          "id": 85,
+          "values": [
+            "Тестовый бренд"
+          ]
+        },
+        {
+          "id": 10096,
+          "values": [
+            "белый"
+          ]
+        },
+        {
+          "id": 4389,
+          "values": [
+            "Китай"
+          ]
+        }
+      ],
+      "dimensions": {
+        "height": 12,
+        "width": 9,
+        "depth": 9,
+        "unit": "cm",
+        "weight": 1,
+        "weightUnit": "kg"
+      }
+    },
+    {
+      "sku": 910007,
+      "productId": 810007,
+      "offerId": "FBO-TEST-G",
+      "name": "Тестовый товар G",
+      "barcodes": [
+        "2000000000077"
+      ],
+      "volumeLitres": 1.0,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": [],
+      "descriptionCategoryId": 17028650,
+      "typeId": 93210,
+      "attributes": [
+        {
+          "id": 85,
+          "values": [
+            "Тестовый бренд"
+          ]
+        },
+        {
+          "id": 10096,
+          "values": [
+            "чёрный",
+            "белый"
+          ]
+        },
+        {
+          "id": 4389,
+          "values": [
+            "Китай"
+          ]
+        }
+      ],
+      "dimensions": {
+        "height": 120,
+        "width": 90,
+        "depth": 90,
+        "unit": "mm",
+        "weight": 350,
+        "weightUnit": "g"
+      }
+    },
+    {
+      "sku": 910008,
+      "productId": 810008,
+      "offerId": "FBO-TEST-H",
+      "name": "Тестовый товар H",
+      "barcodes": [
+        "2000000000084"
+      ],
+      "volumeLitres": 0.5,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": [],
+      "descriptionCategoryId": 17028650,
+      "typeId": 93210,
+      "attributes": [
+        {
+          "id": 85,
+          "values": [
+            "Тестовый бренд"
+          ]
+        },
+        {
+          "id": 10096,
+          "values": [
+            "синий",
+            "белый"
+          ]
+        },
+        {
+          "id": 4389,
+          "values": [
+            "Китай"
+          ]
+        }
+      ],
+      "dimensions": {
+        "height": 120,
+        "width": 90,
+        "depth": 90,
+        "unit": "mm",
+        "weight": 350,
+        "weightUnit": "g"
+      }
+    },
+    {
+      "sku": 910009,
+      "productId": 810009,
+      "offerId": "FBO-TEST-I",
+      "name": "Тестовый товар I",
+      "barcodes": [
+        "2000000000091"
+      ],
+      "volumeLitres": 1.0,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": [],
+      "descriptionCategoryId": 17028650,
+      "typeId": 93210,
+      "attributes": [
+        {
+          "id": 85,
+          "values": [
+            "Тестовый бренд"
+          ]
+        },
+        {
+          "id": 10096,
+          "values": [
+            "красный",
+            "белый"
+          ]
+        },
+        {
+          "id": 4389,
+          "values": [
+            "Китай"
+          ]
+        }
+      ],
+      "dimensions": {
+        "height": 120,
+        "width": 90,
+        "depth": 90,
+        "unit": "mm",
+        "weight": 350,
+        "weightUnit": "g"
+      }
+    },
+    {
+      "sku": 910010,
+      "productId": 810010,
+      "offerId": "FBO-TEST-J",
+      "name": "Тестовый товар J",
+      "barcodes": [
+        "2000000000107"
+      ],
+      "volumeLitres": 0.5,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": [],
+      "descriptionCategoryId": 17028650,
+      "typeId": 93210,
+      "attributes": [
+        {
+          "id": 85,
+          "values": [
+            "Тестовый бренд"
+          ]
+        },
+        {
+          "id": 10096,
+          "values": [
+            "зелёный",
+            "белый"
+          ]
+        },
+        {
+          "id": 4389,
+          "values": [
+            "Китай"
+          ]
+        }
+      ],
+      "dimensions": {
+        "height": 120,
+        "width": 90,
+        "depth": 90,
+        "unit": "mm",
+        "weight": 350,
+        "weightUnit": "g"
+      }
+    }
+  ],
+  "catalog": {
+    "categories": [
+      {
+        "id": 17027484,
+        "name": "Одежда",
+        "children": [
+          {
+            "id": 17028922,
+            "name": "Футболки и топы",
+            "types": [
+              {
+                "id": 92851,
+                "name": "Футболка",
+                "attributeIds": [
+                  85,
+                  10096,
+                  4604,
+                  4389,
+                  9533
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 17027495,
+        "name": "Дом и сад",
+        "children": [
+          {
+            "id": 17028650,
+            "name": "Посуда",
+            "types": [
+              {
+                "id": 93210,
+                "name": "Кружка",
+                "attributeIds": [
+                  85,
+                  10096,
+                  4389
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "attributes": [
+      {
+        "id": 85,
+        "name": "Бренд",
+        "type": "String",
+        "isCollection": false,
+        "dictionaryId": 28732849
+      },
+      {
+        "id": 10096,
+        "name": "Цвет товара",
+        "type": "String",
+        "isCollection": true,
+        "dictionaryId": 1495
+      },
+      {
+        "id": 4604,
+        "name": "Состав материала",
+        "type": "String",
+        "isCollection": false,
+        "dictionaryId": 0
+      },
+      {
+        "id": 4389,
+        "name": "Страна-изготовитель",
+        "type": "String",
+        "isCollection": true,
+        "dictionaryId": 1935
+      },
+      {
+        "id": 9533,
+        "name": "Размер производителя",
+        "type": "String",
+        "isCollection": false,
+        "dictionaryId": 0
+      }
+    ]
+  },
+  "warehouses": [
+    {
+      "id": 710001,
+      "name": "Тестовый склад Москва",
+      "address": "Тестовый адрес Москва",
+      "timezone": "Europe/Moscow",
+      "type": "FULL_FILLMENT"
+    },
+    {
+      "id": 710002,
+      "name": "Тестовый склад Казань",
+      "address": "Тестовый адрес Казань",
+      "timezone": "Europe/Moscow",
+      "type": "FULL_FILLMENT"
+    },
+    {
+      "id": 710003,
+      "name": "Тестовая точка сдачи",
+      "address": "Тестовый адрес сдачи",
+      "timezone": "Europe/Moscow",
+      "type": "SORTING_CENTER"
+    }
+  ],
+  "clusters": [
+    {
+      "id": 610001,
+      "macrolocalId": 510001,
+      "name": "Тест Москва",
+      "warehouseIds": [
+        710001
+      ]
+    },
+    {
+      "id": 610002,
+      "macrolocalId": 510002,
+      "name": "Тест Казань",
+      "warehouseIds": [
+        710002
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "type": "DIRECT",
+      "dropoffWarehouseId": 710001,
+      "clusterIds": [
+        510001
+      ],
+      "allowedSkus": [
+        910001,
+        910002,
+        910003,
+        910004,
+        910005,
+        910006,
+        910007,
+        910008,
+        910009,
+        910010
+      ]
+    },
+    {
+      "type": "DIRECT",
+      "dropoffWarehouseId": 710002,
+      "clusterIds": [
+        510002
+      ],
+      "allowedSkus": [
+        910001,
+        910002,
+        910003,
+        910004,
+        910005,
+        910006,
+        910007,
+        910008,
+        910009,
+        910010
+      ]
+    },
+    {
+      "type": "CROSSDOCK",
+      "dropoffWarehouseId": 710003,
+      "clusterIds": [
+        510001,
+        510002
+      ],
+      "allowedSkus": [
+        910001,
+        910002,
+        910003,
+        910004,
+        910005,
+        910006,
+        910007,
+        910008,
+        910009,
+        910010
+      ]
+    },
+    {
+      "type": "MULTI_CLUSTER",
+      "dropoffWarehouseId": 710003,
+      "clusterIds": [
+        510001,
+        510002
+      ],
+      "allowedSkus": [
+        910001,
+        910002,
+        910003,
+        910004,
+        910005,
+        910006,
+        910007,
+        910008,
+        910009,
+        910010
+      ]
+    }
+  ],
+  "slots": {
+    "daysAhead": 7,
+    "startHour": 10,
+    "durationHours": 1,
+    "capacity": 10,
+    "unavailableDates": []
+  }
+}

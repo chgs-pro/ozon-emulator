@@ -1,0 +1,292 @@
+{
+  "schemaVersion": 1,
+  "fboEnabled": true,
+  "contractActive": true,
+  "writeEnabled": true,
+  "roleName": "Admin",
+  "clockOffsetSeconds": 0,
+  "draftLifetimeSeconds": 1800,
+  "operationDelaySeconds": 2,
+  "draftFailure": false,
+  "supplyFailure": false,
+  "fault": {
+    "path": "",
+    "phase": "before",
+    "status": 503,
+    "remaining": 0
+  },
+  "products": [
+    {
+      "sku": 910001,
+      "productId": 810001,
+      "offerId": "FBO-TEST-A",
+      "name": "Тестовый товар А",
+      "barcodes": [
+        "2000000000015"
+      ],
+      "volumeLitres": 1.0,
+      "quant": 2,
+      "maxQuantity": 1000,
+      "tags": [
+        "MARKING_REQUIRED"
+      ],
+      "expirationRequired": true,
+      "supplyTags": [
+        "UTD_REQUIRED"
+      ]
+    },
+    {
+      "sku": 910002,
+      "productId": 810002,
+      "offerId": "FBO-TEST-B",
+      "name": "Тестовый товар Б",
+      "barcodes": [
+        "2000000000022"
+      ],
+      "volumeLitres": 0.5,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": []
+    },
+    {
+      "sku": 910003,
+      "productId": 810003,
+      "offerId": "FBO-TEST-C",
+      "name": "Тестовый товар C",
+      "barcodes": [
+        "2000000000039"
+      ],
+      "volumeLitres": 1.0,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": []
+    },
+    {
+      "sku": 910004,
+      "productId": 810004,
+      "offerId": "FBO-TEST-D",
+      "name": "Тестовый товар D",
+      "barcodes": [
+        "2000000000046"
+      ],
+      "volumeLitres": 0.5,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": []
+    },
+    {
+      "sku": 910005,
+      "productId": 810005,
+      "offerId": "FBO-TEST-E",
+      "name": "Тестовый товар E",
+      "barcodes": [
+        "2000000000053"
+      ],
+      "volumeLitres": 1.0,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": []
+    },
+    {
+      "sku": 910006,
+      "productId": 810006,
+      "offerId": "FBO-TEST-F",
+      "name": "Тестовый товар F",
+      "barcodes": [
+        "2000000000060"
+      ],
+      "volumeLitres": 0.5,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": []
+    },
+    {
+      "sku": 910007,
+      "productId": 810007,
+      "offerId": "FBO-TEST-G",
+      "name": "Тестовый товар G",
+      "barcodes": [
+        "2000000000077"
+      ],
+      "volumeLitres": 1.0,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": []
+    },
+    {
+      "sku": 910008,
+      "productId": 810008,
+      "offerId": "FBO-TEST-H",
+      "name": "Тестовый товар H",
+      "barcodes": [
+        "2000000000084"
+      ],
+      "volumeLitres": 0.5,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": []
+    },
+    {
+      "sku": 910009,
+      "productId": 810009,
+      "offerId": "FBO-TEST-I",
+      "name": "Тестовый товар I",
+      "barcodes": [
+        "2000000000091"
+      ],
+      "volumeLitres": 1.0,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": []
+    },
+    {
+      "sku": 910010,
+      "productId": 810010,
+      "offerId": "FBO-TEST-J",
+      "name": "Тестовый товар J",
+      "barcodes": [
+        "2000000000107"
+      ],
+      "volumeLitres": 0.5,
+      "quant": 1,
+      "maxQuantity": 1000,
+      "tags": []
+    }
+  ],
+  "warehouses": [
+    {
+      "id": 710001,
+      "name": "Тестовый склад Москва",
+      "address": "Тестовый адрес Москва",
+      "timezone": "Europe/Moscow",
+      "type": "FULL_FILLMENT"
+    },
+    {
+      "id": 710002,
+      "name": "Тестовый склад Казань",
+      "address": "Тестовый адрес Казань",
+      "timezone": "Europe/Moscow",
+      "type": "FULL_FILLMENT"
+    },
+    {
+      "id": 710003,
+      "name": "Тестовая точка сдачи",
+      "address": "Тестовый адрес сдачи",
+      "timezone": "Europe/Moscow",
+      "type": "SORTING_CENTER"
+    }
+  ],
+  "clusters": [
+    {
+      "id": 610001,
+      "macrolocalId": 510001,
+      "name": "Тест Москва",
+      "warehouseIds": [
+        710001
+      ]
+    },
+    {
+      "id": 610002,
+      "macrolocalId": 510002,
+      "name": "Тест Казань",
+      "warehouseIds": [
+        710002
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "type": "DIRECT",
+      "dropoffWarehouseId": 710001,
+      "clusterIds": [
+        510001
+      ],
+      "allowedSkus": [
+        910001,
+        910002,
+        910003,
+        910004,
+        910005,
+        910006,
+        910007,
+        910008,
+        910009,
+        910010
+      ]
+    },
+    {
+      "type": "DIRECT",
+      "dropoffWarehouseId": 710002,
+      "clusterIds": [
+        510002
+      ],
+      "allowedSkus": [
+        910001,
+        910002,
+        910003,
+        910004,
+        910005,
+        910006,
+        910007,
+        910008,
+        910009,
+        910010
+      ]
+    },
+    {
+      "type": "CROSSDOCK",
+      "dropoffWarehouseId": 710003,
+      "clusterIds": [
+        510001,
+        510002
+      ],
+      "allowedSkus": [
+        910001,
+        910002,
+        910003,
+        910004,
+        910005,
+        910006,
+        910007,
+        910008,
+        910009,
+        910010
+      ]
+    },
+    {
+      "type": "MULTI_CLUSTER",
+      "dropoffWarehouseId": 710003,
+      "clusterIds": [
+        510001,
+        510002
+      ],
+      "allowedSkus": [
+        910001,
+        910002,
+        910003,
+        910004,
+        910005,
+        910006,
+        910007,
+        910008,
+        910009,
+        910010
+      ]
+    }
+  ],
+  "slots": {
+    "daysAhead": 7,
+    "startHour": 10,
+    "durationHours": 1,
+    "capacity": 10,
+    "unavailableDates": []
+  },
+  "vehicleRequired": true,
+  "timeslotChangesLimit": 2,
+  "cargoLimits": {
+    "max_box_count": 30,
+    "max_box_sku_count": 10,
+    "max_pallet_count": 40,
+    "max_transport_pallet_count": 40
+  }
+}

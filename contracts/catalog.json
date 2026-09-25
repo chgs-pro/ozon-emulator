@@ -1,0 +1,568 @@
+{
+ "sourceCommit": "eb6e06c92a83953ed0978b67db04752880ee1c03",
+ "sourceSha256": "c51cc090159987fe6d308c110b2b438c33953d38b4d058a4753fa01cfe4a066f",
+ "paths": {
+  "/v1/description-category/tree": {
+   "request": {
+    "$ref": "#/components/schemas/v1GetTreeRequest"
+   },
+   "response": {
+    "$ref": "#/components/schemas/v1GetTreeResponse"
+   }
+  },
+  "/v1/description-category/attribute": {
+   "request": {
+    "$ref": "#/components/schemas/v1GetAttributesRequest"
+   },
+   "response": {
+    "$ref": "#/components/schemas/v1GetAttributesResponse"
+   }
+  },
+  "/v4/product/info/attributes": {
+   "request": {
+    "$ref": "#/components/schemas/productv4GetProductAttributesV4Request"
+   },
+   "response": {
+    "$ref": "#/components/schemas/productv4GetProductAttributesV4Response"
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "productv4GetProductAttributesV4Response": {
+    "properties": {
+     "result": {
+      "items": {
+       "$ref": "#/components/schemas/productv4GetProductAttributesV4ResponseResult"
+      },
+      "type": "array",
+      "description": "Результаты запроса."
+     },
+     "last_id": {
+      "type": "string",
+      "description": "Идентификатор последнего значения на странице.\n\nЧтобы получить следующие значения, укажите полученное значение в следующем запросе в параметре `last_id`.\n"
+     },
+     "total": {
+      "description": "Количество товаров в списке.",
+      "type": "string",
+      "format": "int64"
+     }
+    },
+    "type": "object",
+    "title": "object"
+   },
+   "productv4GetProductAttributesV4ResponseResult": {
+    "properties": {
+     "attributes": {
+      "items": {
+       "$ref": "#/components/schemas/productGetProductAttributesV4ResponseAttribute"
+      },
+      "type": "array",
+      "description": "Список характеристик товара."
+     },
+     "attributes_with_defaults": {
+      "type": "array",
+      "items": {
+       "format": "int64",
+       "type": "integer"
+      },
+      "description": "Список идентификаторов характеристик со значением по умолчанию."
+     },
+     "barcode": {
+      "type": "string",
+      "description": "Штрихкод."
+     },
+     "barcodes": {
+      "type": "array of strings",
+      "description": "Все штрихкоды товара."
+     },
+     "description_category_id": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Идентификатор категории.\nИспользуйте его с методами [/v1/description-category/attribute](#operation/DescriptionCategoryAPI_GetAttributes) и [/v1/description-category/attribute/values](#operation/DescriptionCategoryAPI_GetAttributeValues).\n"
+     },
+     "color_image": {
+      "type": "string",
+      "description": "Маркетинговый цвет."
+     },
+     "complex_attributes": {
+      "items": {
+       "$ref": "#/components/schemas/GetProductAttributesV4ResponseAttribute"
+      },
+      "type": "array",
+      "description": "Массив вложенных характеристик."
+     },
+     "depth": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Глубина."
+     },
+     "dimension_unit": {
+      "type": "string",
+      "description": "Единица измерения габаритов:\n  - `mm` — миллиметры,\n  - `cm` — сантиметры,\n  - `in` — дюймы.\n"
+     },
+     "height": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Высота упаковки."
+     },
+     "id": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Идентификатор товара в системе Ozon — `product_id`."
+     },
+     "images": {
+      "items": {
+       "$ref": "#/components/schemas/GetProductAttributesResponseImage"
+      },
+      "type": "array of strings",
+      "description": "Массив ссылок на изображения товара. Порядок изображений аналогичен порядку в карточке товаров."
+     },
+     "model_info": {
+      "$ref": "#/components/schemas/v4GetProductAttributesResponseModelInfo"
+     },
+     "name": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Название товара."
+     },
+     "offer_id": {
+      "type": "string",
+      "description": "Идентификатор товара в системе продавца — артикул."
+     },
+     "pdf_list": {
+      "items": {
+       "$ref": "#/components/schemas/v4GetProductAttributesResponsePdf"
+      },
+      "type": "array",
+      "description": "Массив PDF-файлов."
+     },
+     "primary_image": {
+      "type": "string",
+      "description": "Ссылка на главное изображение товара."
+     },
+     "sku": {
+      "type": "string",
+      "description": "Идентификатор товара в системе Ozon — SKU."
+     },
+     "type_id": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Идентификатор типа товара."
+     },
+     "weight": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Вес товара в упаковке."
+     },
+     "weight_unit": {
+      "type": "string",
+      "description": "Единица измерения веса."
+     },
+     "width": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Ширина упаковки."
+     }
+    },
+    "type": "object",
+    "title": "object"
+   },
+   "productGetProductAttributesV4ResponseAttribute": {
+    "properties": {
+     "id": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Идентификатор характеристики."
+     },
+     "complex_id": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Идентификатор характеристики, которая поддерживает вложенные свойства. Например, у характеристики «Процессор» есть вложенные характеристики «Производитель» и «L2 Cache». У каждой из вложенных характеристик может быть несколько вариантов значений."
+     },
+     "values": {
+      "items": {
+       "$ref": "#/components/schemas/productGetProductAttributesV3ResponseDictionaryValue"
+      },
+      "type": "array",
+      "description": "Массив значений характеристик."
+     }
+    },
+    "type": "object",
+    "title": "object"
+   },
+   "GetProductAttributesV4ResponseAttribute": {
+    "properties": {
+     "id": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Идентификатор характеристики."
+     },
+     "complex_id": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Идентификатор характеристики, которая поддерживает вложенные свойства. Например, у характеристики «Процессор» есть вложенные характеристики «Производитель» и «L2 Cache». У каждой из вложенных характеристик может быть несколько вариантов значений."
+     },
+     "values": {
+      "items": {
+       "$ref": "#/components/schemas/GetProductAttributesV3ResponseDictionaryValue"
+      },
+      "type": "array",
+      "description": "Массив значений характеристик."
+     }
+    },
+    "type": "object",
+    "title": "object"
+   },
+   "GetProductAttributesResponseImage": {
+    "properties": {
+     "default": {
+      "type": "boolean",
+      "description": "`true`, если изображение главное и отображается первым на карточке товара.\n"
+     },
+     "file_name": {
+      "type": "string",
+      "description": null
+     },
+     "index": {
+      "format": "int64",
+      "type": "integer",
+      "description": null
+     }
+    },
+    "type": "object",
+    "title": "object"
+   },
+   "v4GetProductAttributesResponseModelInfo": {
+    "properties": {
+     "model_id": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Идентификатор модели."
+     },
+     "count": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Количество объединённых товаров модели."
+     }
+    },
+    "description": "Информация о модели.",
+    "type": "object",
+    "title": "object"
+   },
+   "v4GetProductAttributesResponsePdf": {
+    "properties": {
+     "file_name": {
+      "type": "string",
+      "description": "Путь к PDF-файлу."
+     },
+     "name": {
+      "type": "string",
+      "description": "Название файла."
+     }
+    },
+    "type": "object",
+    "title": "object"
+   },
+   "GetProductAttributesV3ResponseDictionaryValue": {
+    "properties": {
+     "dictionaryValueId": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Идентификатор характеристики в словаре."
+     },
+     "value": {
+      "type": "string",
+      "description": "Значение характеристики товара."
+     }
+    },
+    "type": "object",
+    "title": "object"
+   },
+   "productGetProductAttributesV3ResponseDictionaryValue": {
+    "properties": {
+     "dictionary_value_id": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Идентификатор характеристики в словаре."
+     },
+     "value": {
+      "type": "string",
+      "description": "Значение характеристики товара."
+     }
+    },
+    "type": "object",
+    "title": "object"
+   },
+   "productv4GetProductAttributesV4Request": {
+    "type": "object",
+    "title": "object",
+    "properties": {
+     "filter": {
+      "$ref": "#/components/schemas/productv4Filter"
+     },
+     "last_id": {
+      "type": "string",
+      "description": "Идентификатор последнего значения на странице. Оставьте это поле пустым при выполнении первого запроса.\n\nЧтобы получить следующие значения, укажите `last_id` из ответа предыдущего запроса.\n"
+     },
+     "limit": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 1000,
+      "description": "Количество значений на странице."
+     },
+     "sort_by": {
+      "type": "string",
+      "description": "Параметр, по которому товары будут отсортированы:\n- `sku` — сортировка по идентификатору товара в системе Ozon;\n- `offer_id` — сортировка по артикулу товара;\n- `id` — сортировка по идентификатору товара;\n- `title` — сортировка по названию товара.\n"
+     },
+     "sort_dir": {
+      "type": "string",
+      "description": "Направление сортировки:\n- `asc` — по возрастанию,\n- `desc` — по убыванию.\n"
+     }
+    }
+   },
+   "productv4Filter": {
+    "type": "object",
+    "title": "object",
+    "description": "Фильтр по товарам.",
+    "properties": {
+     "offer_id": {
+      "description": "Фильтр по параметру `offer_id`. Можно передавать список значений.",
+      "items": {
+       "type": "string"
+      }
+     },
+     "product_id": {
+      "description": "Фильтр по параметру `product_id`. Можно передавать до 1000 значений.",
+      "items": {
+       "type": "string",
+       "format": "int64"
+      }
+     },
+     "sku": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "format": "int64"
+      },
+      "description": "Идентификатор товара в системе Ozon — SKU."
+     },
+     "visibility": {
+      "$ref": "#/components/schemas/productv2GetProductListRequestFilterFilterVisibility"
+     }
+    }
+   },
+   "productv2GetProductListRequestFilterFilterVisibility": {
+    "default": "ALL",
+    "enum": [
+     "ALL",
+     "VISIBLE",
+     "INVISIBLE",
+     "EMPTY_STOCK",
+     "NOT_MODERATED",
+     "MODERATED",
+     "DISABLED",
+     "STATE_FAILED",
+     "READY_TO_SUPPLY",
+     "VALIDATION_STATE_PENDING",
+     "VALIDATION_STATE_FAIL",
+     "VALIDATION_STATE_SUCCESS",
+     "TO_SUPPLY",
+     "IN_SALE",
+     "REMOVED_FROM_SALE",
+     "OVERPRICED",
+     "CRITICALLY_OVERPRICED",
+     "EMPTY_BARCODE",
+     "BARCODE_EXISTS",
+     "QUARANTINE",
+     "ARCHIVED",
+     "OVERPRICED_WITH_STOCK",
+     "PARTIAL_APPROVED",
+     "AUTO_ARCHIVED",
+     "MANUAL_ARCHIVED",
+     "SEASONAL_AUTO_ARCHIVED",
+     "VISIBLE_WITH_FBO_STOCK"
+    ],
+    "type": "string",
+    "title": "string",
+    "description": "Фильтр по видимости товара:\n  - `ALL` — все товары, кроме архивных;\n  - `VISIBLE` — товары, которые видны покупателям;\n  - `INVISIBLE` — товары, которые не видны покупателям;\n  - `EMPTY_STOCK` — товары, у которых не указано наличие;\n  - `NOT_MODERATED` — товары, которые не прошли модерацию;\n  - `MODERATED` — товары, которые прошли модерацию;\n  - `DISABLED` — товары, которые видны покупателям, но недоступны к покупке;\n  - `STATE_FAILED` — товары, создание которых завершилось ошибкой;\n  - `READY_TO_SUPPLY` — товары, готовые к поставке;\n  - `VALIDATION_STATE_PENDING` — товары, которые проходят проверку валидатором на премодерации;\n  - `VALIDATION_STATE_FAIL` — товары, которые не прошли проверку валидатором на премодерации;\n  - `VALIDATION_STATE_SUCCESS` — товары, которые прошли проверку валидатором на премодерации;\n  - `TO_SUPPLY` — товары, готовые к продаже;\n  - `IN_SALE` — товары в продаже;\n  - `REMOVED_FROM_SALE` — товары, скрытые от покупателей;\n  - `OVERPRICED` — товары с завышенной ценой;\n  - `CRITICALLY_OVERPRICED` — товары со слишком завышенной ценой;\n  - `EMPTY_BARCODE` — товары без штрихкода;\n  - `BARCODE_EXISTS` — товары со штрихкодом;\n  - `QUARANTINE` — товары на карантине после изменения цены более чем на 50%;\n  - `ARCHIVED` — товары в архиве;\n  - `OVERPRICED_WITH_STOCK` — товары в продаже со стоимостью выше, чем у конкурентов;\n  - `PARTIAL_APPROVED` — товары в продаже с пустым или неполным описанием;\n  - `AUTO_ARCHIVED` — товары, которые система перенесла в архив автоматически;\n  - `MANUAL_ARCHIVED` — товары, которые продавец перенёс в архив вручную;\n  - `SEASONAL_AUTO_ARCHIVED` — сезонные товары, которые система перенесла в архив автоматически;\n  - `VISIBLE_WITH_FBO_STOCK` — товары с остатками на FBO, которые видят покупатели.\n"
+   },
+   "v1GetAttributesResponse": {
+    "type": "object",
+    "title": "object",
+    "properties": {
+     "result": {
+      "type": "array",
+      "description": "Результат запроса.",
+      "items": {
+       "$ref": "#/components/schemas/v1GetAttributesResponseAttribute"
+      }
+     }
+    }
+   },
+   "v1GetAttributesResponseAttribute": {
+    "type": "object",
+    "title": "object",
+    "properties": {
+     "category_dependent": {
+      "type": "boolean",
+      "description": "Признак, что значения словарного атрибута зависят от категории:\n- `true` — у атрибута разные значения для каждой категории.\n- `false` — у атрибута одинаковые значения для всех категорий.\n"
+     },
+     "description": {
+      "type": "string",
+      "description": "Описание характеристики."
+     },
+     "dictionary_id": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Идентификатор справочника."
+     },
+     "group_id": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Идентификатор группы характеристик."
+     },
+     "group_name": {
+      "type": "string",
+      "description": "Название группы характеристик."
+     },
+     "id": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Идентификатор характеристики."
+     },
+     "is_aspect": {
+      "type": "boolean",
+      "description": "Признак аспектного атрибута. Аспектный атрибут — характеристика, по которой отличаются товары одной модели. \n\nНапример, у одежды и обуви одной модели могут быть разные расцветки и размеры. То есть цвет и размер — это аспектные атрибуты.\n\nЗначения поля:\n  - `true` — атрибут аспектный и его нельзя изменить после поставки товара на склад или продажи со своего склада.\n  - `false` — атрибут не аспектный, можно изменить в любое время.\n"
+     },
+     "is_collection": {
+      "type": "boolean",
+      "description": "- `true`, если характеристика — набор значений.\n- `false`, если характеристика — одно значение.\n"
+     },
+     "is_required": {
+      "type": "boolean",
+      "description": "Признак обязательной характеристики:\n  - `true` — обязательная характеристика,\n  - `false` — характеристику можно не указывать.\n"
+     },
+     "name": {
+      "type": "string",
+      "description": "Название."
+     },
+     "type": {
+      "type": "string",
+      "description": "Тип характеристики."
+     },
+     "attribute_complex_id": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Идентификатор комплексного атрибута."
+     },
+     "max_value_count": {
+      "format": "int64",
+      "type": "integer",
+      "description": "Максимальное количество значений для атрибута."
+     },
+     "complex_is_collection": {
+      "type": "boolean",
+      "description": "Признак, что комплексная характеристика — набор значений:\n- `true`, если комплексная характеристика — набор значений,\n- `false`, если комплексная характеристика — одно значение.\n"
+     }
+    }
+   },
+   "v1GetAttributesRequest": {
+    "required": [
+     "description_category_id",
+     "type_id"
+    ],
+    "type": "object",
+    "title": "object",
+    "properties": {
+     "description_category_id": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Идентификатор категории. Можно получить с помощью метода [/v1/description-category/tree](#operation/DescriptionCategoryAPI_GetTree)."
+     },
+     "language": {
+      "$ref": "#/components/schemas/languageLanguage"
+     },
+     "type_id": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Идентификатор типа товара. Можно получить с помощью метода [/v1/description-category/tree](#operation/DescriptionCategoryAPI_GetTree)."
+     }
+    }
+   },
+   "languageLanguage": {
+    "default": "DEFAULT",
+    "enum": [
+     "DEFAULT",
+     "RU",
+     "EN",
+     "TR",
+     "ZH_HANS"
+    ],
+    "description": "Язык в ответе:\n- `EN` — английский,\n- `RU` — русский,\n- `TR` — турецкий,\n- `ZH_HANS` — китайский.\n\nПо умолчанию используется русский язык.\n",
+    "type": "string",
+    "title": "object"
+   },
+   "v1GetTreeResponse": {
+    "type": "object",
+    "title": "object",
+    "properties": {
+     "result": {
+      "type": "array",
+      "description": "Список категорий.",
+      "items": {
+       "$ref": "#/components/schemas/v1GetTreeResponseItem"
+      }
+     }
+    }
+   },
+   "v1GetTreeResponseItem": {
+    "type": "object",
+    "title": "object",
+    "properties": {
+     "description_category_id": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Идентификатор категории."
+     },
+     "category_name": {
+      "type": "string",
+      "description": "Название категории."
+     },
+     "children": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/v1GetTreeResponseItem"
+      },
+      "description": "Дерево подкатегорий."
+     },
+     "disabled": {
+      "type": "boolean",
+      "description": "`true`, если в категории нельзя создавать товары. `false`, если можно.\n"
+     },
+     "type_id": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Идентификатор типа товара."
+     },
+     "type_name": {
+      "type": "string",
+      "description": "Название типа товара."
+     }
+    }
+   },
+   "v1GetTreeRequest": {
+    "type": "object",
+    "title": "object",
+    "properties": {
+     "language": {
+      "$ref": "#/components/schemas/languageLanguage"
+     }
+    }
+   }
+  }
+ },
+ "fixtureVersion": 1,
+ "verifiedAt": "2026-09-23"
+}

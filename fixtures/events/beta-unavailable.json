@@ -1,0 +1,9 @@
+{
+  "eventId": "beta-unavailable-1",
+  "type": "beta",
+  "disabledPaths": [
+    "/v1/supply-order/act/summary/get",
+    "/v1/supply-order/act/product/get",
+    "/v1/cargoes/transport/activate"
+  ]
+}

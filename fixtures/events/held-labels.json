@@ -1,0 +1,7 @@
+{
+  "eventId": "held-labels-1",
+  "type": "scenario",
+  "path": "/v1/cargoes-label/create",
+  "hold": true,
+  "remaining": 1
+}

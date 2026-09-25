@@ -1,0 +1,7 @@
+{
+  "eventId": "partial-cargo-1",
+  "type": "scenario",
+  "path": "/v1/cargoes/create",
+  "partialCargoCount": 1,
+  "remaining": 1
+}

@@ -1,0 +1,94 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use PhpSoftBox\CliApp\CliApp;
+use PhpSoftBox\CliApp\Runner\RunnerInterface;
+use PhpSoftBox\ErrorFormatter\ThrowableFormatter;
+
+$autoload = __DIR__ . '/vendor/autoload.php';
+if (!is_file($autoload)) {
+    fwrite(STDERR, "Autoload file not found. Run composer install.\n");
+    exit(1);
+}
+require $autoload;
+
+$bootstrap = __DIR__ . '/config/cli.bootstrap.php';
+if (!is_file($bootstrap)) {
+    fwrite(STDERR, "Console bootstrap file not found: {$bootstrap}\n");
+    exit(2);
+}
+
+$app = require $bootstrap;
+if (is_callable($app)) {
+    $app = $app();
+}
+
+if ($app instanceof CliApp) {
+    $runner = $app->runner();
+} elseif ($app instanceof RunnerInterface) {
+    $runner = $app;
+} else {
+    fwrite(STDERR, "Console bootstrap must return CliApp or RunnerInterface.\n");
+    exit(2);
+}
+
+$argv = $_SERVER['argv'] ?? [];
+if (!is_array($argv)) {
+    $argv = [];
+}
+
+$script = (string) ($argv[0] ?? '');
+array_shift($argv);
+
+$command = (string) ($argv[0] ?? '');
+if ($command !== '') {
+    array_shift($argv);
+}
+
+while (($argv[0] ?? null) !== null && is_string($argv[0]) && isScriptToken($argv[0], $script)) {
+    array_shift($argv);
+}
+
+try {
+    $response = $runner->run($command, $argv);
+    exit($response->code);
+} catch (Throwable $exception) {
+    foreach (ThrowableFormatter::toLines($exception, 'Unhandled exception:') as $line) {
+        fwrite(STDERR, $line . PHP_EOL);
+    }
+
+    exit(1);
+}
+
+function isScriptToken(string $value, string $script): bool
+{
+    $value = normalizeScriptToken($value);
+    if ($value === '') {
+        return false;
+    }
+
+    $script = normalizeScriptToken($script);
+    if ($script !== '' && $value === $script) {
+        return true;
+    }
+
+    $scriptBase = basename($script);
+    if ($scriptBase !== '' && $value === $scriptBase) {
+        return true;
+    }
+
+    return $value === basename(__FILE__);
+}
+
+function normalizeScriptToken(string $value): string
+{
+    $value = str_replace('\\', '/', trim($value));
+
+    while (str_starts_with($value, './')) {
+        $value = substr($value, 2);
+    }
+
+    return $value;
+}

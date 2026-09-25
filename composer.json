@@ -1,0 +1,67 @@
+{
+    "name": "chgs-pro/ozon-emulator",
+    "description": "Эмулятор Ozon Seller API для разработки и тестирования интеграций",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": "^8.5",
+        "mongodb/mongodb": "^2.4.1",
+        "phpsoftbox/api": "dev-master",
+        "phpsoftbox/application": "dev-master",
+        "phpsoftbox/auth": "dev-master",
+        "phpsoftbox/cache": "dev-master",
+        "phpsoftbox/cli-app": "dev-master",
+        "phpsoftbox/clock": "dev-master",
+        "phpsoftbox/collection": "dev-master",
+        "phpsoftbox/config": "dev-master",
+        "phpsoftbox/container": "dev-master",
+        "phpsoftbox/env": "dev-master",
+        "phpsoftbox/http-emitter": "dev-master",
+        "phpsoftbox/http-message": "dev-master",
+        "phpsoftbox/mongo": "dev-master",
+        "phpsoftbox/request": "dev-master",
+        "phpsoftbox/resource": "dev-master",
+        "phpsoftbox/router": "dev-master",
+        "phpsoftbox/validator": "dev-master",
+        "picqer/php-barcode-generator": "^3.3",
+        "setasign/fpdf": "^1.9"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.93",
+        "phpsoftbox/cs-fixer": "^1.1.0",
+        "phpsoftbox/ozon": "dev-master",
+        "phpunit/phpunit": "^11.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "phpunit",
+        "cs:fix": "vendor/bin/psb-cs-fixer fix",
+        "cs:check": "vendor/bin/psb-cs-fixer check --diff",
+        "app:prepare-env": "@php -r \"is_dir('config/env') || mkdir('config/env', 0775, true); file_exists('config/env/.env') || copy('config/env/.env.example', 'config/env/.env');\"",
+        "app:prepare-local": "@php -r \"is_dir('local') || mkdir('local', 0775, true); chmod('local', 0775);\"",
+        "post-install-cmd": [
+            "@app:prepare-local"
+        ],
+        "post-update-cmd": [
+            "@app:prepare-local"
+        ],
+        "post-create-project-cmd": [
+            "@app:prepare-env",
+            "@app:prepare-local"
+        ]
+    }
+}
