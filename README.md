@@ -195,6 +195,25 @@ python3 local/ozon/tools/smoke-fbo.py
 - [Каталог](docs/catalog.md);
 - [Контракт Seller API и допущения](contracts/README.md).
 
+## Версии
+
+Выпуски отмечаются тегами `vX.Y.Z` по семантическому версионированию, изменения описаны в
+[CHANGELOG.md](CHANGELOG.md). Чтобы поставить конкретную версию, а не текущую `master`:
+
+```bash
+git clone --branch v1.0.0 https://github.com/chgs-pro/ozon-emulator.git local/ozon
+```
+
+Обновление уже установленного эмулятора до новой версии:
+
+```bash
+cd local/ozon
+git fetch --tags
+git checkout v1.1.0
+cd ../..
+phpsoftbox composer-install
+```
+
 ## Лицензия
 
 Свободное распространение по лицензии [MIT](LICENSE): код можно использовать, изменять и распространять,
