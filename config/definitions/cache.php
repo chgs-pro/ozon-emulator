@@ -28,7 +28,7 @@ return [
                 driver: 'file',
                 namespace: 'app',
                 options: [
-                    'directory' => $path->cachePath(),
+                    'directory' => $path->ensureDirectory($path->cachePath()),
                 ],
             ),
         ];

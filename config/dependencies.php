@@ -10,6 +10,7 @@ $environment = Environment::detect();
 
 $factory = new ConfigFactory(
     environment: $environment->value,
+    baseDir: dirname(__DIR__),
     providers: [
         new PhpFileDataProvider(__DIR__ . '/definitions/*.php', keyByFilename: false),
         new PhpFileDataProvider(__DIR__ . '/definitions/' . $environment->value . '/*.php', keyByFilename: false),

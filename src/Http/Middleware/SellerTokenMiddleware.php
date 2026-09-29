@@ -18,8 +18,8 @@ final readonly class SellerTokenMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private TokenAuthenticator
-    $tokens)
-    {
+    $tokens,
+    ) {
     }
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {

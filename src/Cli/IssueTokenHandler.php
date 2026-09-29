@@ -23,8 +23,8 @@ final readonly class IssueTokenHandler implements HandlerInterface
 {
     public function __construct(
         private IssueToken
-    $handler)
-    {
+    $handler,
+    ) {
     }
 
     public function run(RunnerInterface $runner): int|Response

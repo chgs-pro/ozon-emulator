@@ -26,8 +26,8 @@ final readonly class ConfigureFboHandler implements HandlerInterface
 {
     public function __construct(
         private ConfigureCabinetHandler
-    $handler)
-    {
+    $handler,
+    ) {
     }
 
     public function run(RunnerInterface $runner): int|Response

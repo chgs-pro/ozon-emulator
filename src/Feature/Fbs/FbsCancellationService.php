@@ -107,7 +107,7 @@ final readonly class FbsCancellationService
             $lines[$sku]['quantity'] -= $quantity;
             FbsStockService::release($state, $sku, $posting['warehouse_id'], $quantity);
         }
-        $left = array_values(array_filter($lines, static fn (array $line): bool => $line['quantity'] > 0));
+        $left                                                = array_values(array_filter($lines, static fn (array $line): bool => $line['quantity'] > 0));
         $state->data['fbs']['postings'][$number]['products'] = $left;
         if ($left === []) {
             $this->markCancelled($state, $number, $reason, $now);

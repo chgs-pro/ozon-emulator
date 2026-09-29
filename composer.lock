@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c35848ae23bedf3d9a58defe11fb0191",
+    "content-hash": "7d65244afa5746689fe0b405e1bea367",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.395.2",
+            "version": "3.398.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d027655c121cc80192275e72d189612efa8dd9a9"
+                "reference": "46b99f035965af7769750dd0a46a2f8a0b8880d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d027655c121cc80192275e72d189612efa8dd9a9",
-                "reference": "d027655c121cc80192275e72d189612efa8dd9a9",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/46b99f035965af7769750dd0a46a2f8a0b8880d9",
+                "reference": "46b99f035965af7769750dd0a46a2f8a0b8880d9",
                 "shasum": ""
             },
             "require": {
@@ -153,29 +153,30 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.395.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.398.2"
             },
-            "time": "2026-09-14T20:04:40+00:00"
+            "time": "2026-09-28T18:18:23+00:00"
         },
         {
             "name": "brick/math",
-            "version": "0.18.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/math.git",
-                "reference": "82944324d1c1bdb2c2618e89978d4e2ad78d69ad"
+                "reference": "2effe05d2177c451b86c6a073196a4034c02f211"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/math/zipball/82944324d1c1bdb2c2618e89978d4e2ad78d69ad",
-                "reference": "82944324d1c1bdb2c2618e89978d4e2ad78d69ad",
+                "url": "https://api.github.com/repos/brick/math/zipball/2effe05d2177c451b86c6a073196a4034c02f211",
+                "reference": "2effe05d2177c451b86c6a073196a4034c02f211",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.2"
             },
             "require-dev": {
-                "phpstan/phpstan": "2.1.22",
+                "phpstan/phpstan": "2.2.13",
+                "phpstan/phpstan-phpunit": "2.0.18",
                 "phpunit/phpunit": "^11.5"
             },
             "type": "library",
@@ -206,7 +207,7 @@
             ],
             "support": {
                 "issues": "https://github.com/brick/math/issues",
-                "source": "https://github.com/brick/math/tree/0.18.0"
+                "source": "https://github.com/brick/math/tree/1.0.0"
             },
             "funding": [
                 {
@@ -214,7 +215,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-14T18:21:03+00:00"
+            "time": "2026-09-12T10:28:18+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -685,16 +686,16 @@
         },
         {
             "name": "phpsoftbox/api",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/api.git",
-                "reference": "28385209815c839c8838417a567c705647be527a"
+                "reference": "16cbace2b8eef2b0ca503e7f3a23af09a570c3c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/api/zipball/28385209815c839c8838417a567c705647be527a",
-                "reference": "28385209815c839c8838417a567c705647be527a",
+                "url": "https://api.github.com/repos/phpsoftbox/api/zipball/16cbace2b8eef2b0ca503e7f3a23af09a570c3c3",
+                "reference": "16cbace2b8eef2b0ca503e7f3a23af09a570c3c3",
                 "shasum": ""
             },
             "require": {
@@ -704,17 +705,14 @@
                 "psr/http-server-middleware": "^1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/application": "dev-master",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/http-message": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/application": "^1.0",
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/http-message": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
             "suggest": {
                 "phpsoftbox/application": "Provides CodedHttpException and ExceptionMapper integration for API errors."
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -734,35 +732,36 @@
             "description": "API description, error catalog and request version negotiation for PhpSoftBox",
             "support": {
                 "issues": "https://github.com/phpsoftbox/api/issues",
-                "source": "https://github.com/phpsoftbox/api/tree/master"
+                "source": "https://github.com/phpsoftbox/api/tree/v1.0.0"
             },
-            "time": "2026-08-31T18:13:59+00:00"
+            "time": "2026-09-29T10:22:43+00:00"
         },
         {
             "name": "phpsoftbox/application",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/application.git",
-                "reference": "cc80f34810da964ce272877a81ccb867295bb0e6"
+                "reference": "1c6a687aaddcb848258c639722a29ad5a7d6e188"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/application/zipball/cc80f34810da964ce272877a81ccb867295bb0e6",
-                "reference": "cc80f34810da964ce272877a81ccb867295bb0e6",
+                "url": "https://api.github.com/repos/phpsoftbox/application/zipball/1c6a687aaddcb848258c639722a29ad5a7d6e188",
+                "reference": "1c6a687aaddcb848258c639722a29ad5a7d6e188",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.5",
-                "phpsoftbox/collection": "dev-master",
-                "phpsoftbox/error-formatter": "dev-master",
-                "phpsoftbox/http-client": "dev-master",
-                "phpsoftbox/http-emitter": "dev-master",
-                "phpsoftbox/http-message": "dev-master",
-                "phpsoftbox/profiler": "dev-master",
-                "phpsoftbox/rate-limiter": "dev-master",
-                "phpsoftbox/router": "dev-master",
-                "phpsoftbox/view": "dev-master",
+                "phpsoftbox/collection": "^1.0",
+                "phpsoftbox/error-formatter": "^1.0",
+                "phpsoftbox/http-client": "^1.0",
+                "phpsoftbox/http-emitter": "^1.0",
+                "phpsoftbox/http-message": "^1.0",
+                "phpsoftbox/profiler": "^1.0",
+                "phpsoftbox/rate-limiter": "^1.0",
+                "phpsoftbox/router": "^1.0",
+                "phpsoftbox/session": "^1.0",
+                "phpsoftbox/view": "^1.0",
                 "psr/container": "^2.0",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^2.0",
@@ -771,13 +770,10 @@
                 "psr/log": "^3.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/validator": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/validator": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -797,30 +793,31 @@
             "description": "Application core for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/application/issues",
-                "source": "https://github.com/phpsoftbox/application/tree/master"
+                "source": "https://github.com/phpsoftbox/application/tree/v1.0.0"
             },
-            "time": "2026-08-31T14:59:08+00:00"
+            "time": "2026-09-29T10:22:53+00:00"
         },
         {
             "name": "phpsoftbox/auth",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/auth.git",
-                "reference": "6661b498d4fff7683e342180ff7a759f63b92554"
+                "reference": "20e353fbba48d7c3e75eb07d58f5adfc62e35b0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/auth/zipball/6661b498d4fff7683e342180ff7a759f63b92554",
-                "reference": "6661b498d4fff7683e342180ff7a759f63b92554",
+                "url": "https://api.github.com/repos/phpsoftbox/auth/zipball/20e353fbba48d7c3e75eb07d58f5adfc62e35b0b",
+                "reference": "20e353fbba48d7c3e75eb07d58f5adfc62e35b0b",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.5",
-                "phpsoftbox/clock": "dev-master",
-                "phpsoftbox/cookie": "dev-master",
-                "phpsoftbox/data-casting": "dev-master",
-                "phpsoftbox/session": "dev-master",
+                "phpsoftbox/clock": "^1.0",
+                "phpsoftbox/cookie": "^1.0",
+                "phpsoftbox/data-casting": "^1.0",
+                "phpsoftbox/rate-limiter": "^1.0",
+                "phpsoftbox/session": "^1.0",
                 "psr/container": "^2.0",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.0",
@@ -830,19 +827,17 @@
                 "psr/simple-cache": "^3.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/database": "dev-master",
-                "phpsoftbox/http-message": "dev-master",
-                "phpsoftbox/orm": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cli-app": "^1.0",
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/database": "^1.0",
+                "phpsoftbox/http-message": "^1.0",
+                "phpsoftbox/orm": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
             "suggest": {
                 "phpsoftbox/database": "Required for database-backed users, tokens, remember tokens, authorization stores and DatabaseOwnerResolver.",
                 "phpsoftbox/orm": "Required only for DatabaseUserProvider identity hydration."
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "psb": {
@@ -869,36 +864,34 @@
             "description": "Auth component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/auth/issues",
-                "source": "https://github.com/phpsoftbox/auth/tree/master"
+                "source": "https://github.com/phpsoftbox/auth/tree/v1.0.0"
             },
-            "time": "2026-08-31T20:35:34+00:00"
+            "time": "2026-09-29T10:22:58+00:00"
         },
         {
             "name": "phpsoftbox/cache",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/cache.git",
-                "reference": "013e45a2805a90414b5e2db28ba4569d4e79de1f"
+                "reference": "3e01a0432a4b16900aa320e1bd4b76570525ad96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/cache/zipball/013e45a2805a90414b5e2db28ba4569d4e79de1f",
-                "reference": "013e45a2805a90414b5e2db28ba4569d4e79de1f",
+                "url": "https://api.github.com/repos/phpsoftbox/cache/zipball/3e01a0432a4b16900aa320e1bd4b76570525ad96",
+                "reference": "3e01a0432a4b16900aa320e1bd4b76570525ad96",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4",
+                "php": "^8.5",
                 "psr/cache": "^3.0",
                 "psr/simple-cache": "^3.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cli-app": "^1.0",
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "psb": {
@@ -925,36 +918,34 @@
             "description": "Cache component (PSR-6/PSR-16) for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/cache/issues",
-                "source": "https://github.com/phpsoftbox/cache/tree/master"
+                "source": "https://github.com/phpsoftbox/cache/tree/v1.0.0"
             },
-            "time": "2026-07-01T15:45:47+00:00"
+            "time": "2026-09-29T10:23:13+00:00"
         },
         {
             "name": "phpsoftbox/cli-app",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/cli-app.git",
-                "reference": "9938bbc10bf459e68b809717b914b6efd5feeb32"
+                "reference": "950c5ef14bd75cd40f0f0083cbadd9c51df5a8eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/cli-app/zipball/9938bbc10bf459e68b809717b914b6efd5feeb32",
-                "reference": "9938bbc10bf459e68b809717b914b6efd5feeb32",
+                "url": "https://api.github.com/repos/phpsoftbox/cli-app/zipball/950c5ef14bd75cd40f0f0083cbadd9c51df5a8eb",
+                "reference": "950c5ef14bd75cd40f0f0083cbadd9c51df5a8eb",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": "^8.4",
-                "phpsoftbox/error-formatter": "dev-master",
+                "php": "^8.5",
+                "phpsoftbox/error-formatter": "^1.0",
                 "psr/container": "^2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "bin": [
                 "bin/psb",
                 "bin/_psb_completion"
@@ -981,35 +972,32 @@
             "description": "Console application component (CliApp) for PhpSoftBox Framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/cli-app/issues",
-                "source": "https://github.com/phpsoftbox/cli-app/tree/master"
+                "source": "https://github.com/phpsoftbox/cli-app/tree/v1.0.0"
             },
-            "time": "2026-06-16T08:45:00+00:00"
+            "time": "2026-09-29T10:23:17+00:00"
         },
         {
             "name": "phpsoftbox/clock",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/clock.git",
-                "reference": "da3c44710e1bc05e73653c03b985d6852505591e"
+                "reference": "48807d047aaa078f1cc364258da8e18e26857f4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/clock/zipball/da3c44710e1bc05e73653c03b985d6852505591e",
-                "reference": "da3c44710e1bc05e73653c03b985d6852505591e",
+                "url": "https://api.github.com/repos/phpsoftbox/clock/zipball/48807d047aaa078f1cc364258da8e18e26857f4b",
+                "reference": "48807d047aaa078f1cc364258da8e18e26857f4b",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4",
+                "php": "^8.5",
                 "psr/clock": "^1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1029,34 +1017,31 @@
             "description": "Clock utilities for PhpSoftBox (PSR-20 + frozen time)",
             "support": {
                 "issues": "https://github.com/phpsoftbox/clock/issues",
-                "source": "https://github.com/phpsoftbox/clock/tree/master"
+                "source": "https://github.com/phpsoftbox/clock/tree/v1.0.0"
             },
-            "time": "2026-03-05T11:41:27+00:00"
+            "time": "2026-09-29T10:23:22+00:00"
         },
         {
             "name": "phpsoftbox/collection",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/collection.git",
-                "reference": "d41fc52faec228bcb91db5ebaed3824a1ce477d0"
+                "reference": "2b247b623f8708063be9ed5308fe8a4d7654d69c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/collection/zipball/d41fc52faec228bcb91db5ebaed3824a1ce477d0",
-                "reference": "d41fc52faec228bcb91db5ebaed3824a1ce477d0",
+                "url": "https://api.github.com/repos/phpsoftbox/collection/zipball/2b247b623f8708063be9ed5308fe8a4d7654d69c",
+                "reference": "2b247b623f8708063be9ed5308fe8a4d7654d69c",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4"
+                "php": "^8.5"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1076,39 +1061,40 @@
             "description": "Collection component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/collection/issues",
-                "source": "https://github.com/phpsoftbox/collection/tree/master"
+                "source": "https://github.com/phpsoftbox/collection/tree/v1.0.0"
             },
-            "time": "2026-03-06T07:55:30+00:00"
+            "time": "2026-09-29T10:23:33+00:00"
         },
         {
             "name": "phpsoftbox/config",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/config.git",
-                "reference": "7865f7783dda58963079b15bfdb0bc0d2431ecbe"
+                "reference": "23af6040d70c0035999c2b4f24c53309c556f19c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/config/zipball/7865f7783dda58963079b15bfdb0bc0d2431ecbe",
-                "reference": "7865f7783dda58963079b15bfdb0bc0d2431ecbe",
+                "url": "https://api.github.com/repos/phpsoftbox/config/zipball/23af6040d70c0035999c2b4f24c53309c556f19c",
+                "reference": "23af6040d70c0035999c2b4f24c53309c556f19c",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4",
-                "phpsoftbox/collection": "dev-master",
-                "phpsoftbox/storage": "dev-master",
+                "php": "^8.5",
+                "phpsoftbox/collection": "^1.0",
+                "phpsoftbox/storage": "^1.0",
                 "psr/simple-cache": "^3.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cache": "dev-master",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/encryptor": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cache": "^1.0",
+                "phpsoftbox/cli-app": "^1.0",
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/encryptor": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
+            "suggest": {
+                "phpsoftbox/env": "Чтение APP_KEY из .env в командах config:encrypt/config:decrypt"
+            },
             "type": "library",
             "extra": {
                 "psb": {
@@ -1135,36 +1121,38 @@
             "description": "Config component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/config/issues",
-                "source": "https://github.com/phpsoftbox/config/tree/master"
+                "source": "https://github.com/phpsoftbox/config/tree/v1.0.0"
             },
-            "time": "2026-08-03T19:39:31+00:00"
+            "time": "2026-09-29T10:23:38+00:00"
         },
         {
             "name": "phpsoftbox/container",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/container.git",
-                "reference": "a483da6a176e4677a61bc038af9208dbcbad1092"
+                "reference": "32caee94005052b9a3e0f6f1aa7cfcac639155bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/container/zipball/a483da6a176e4677a61bc038af9208dbcbad1092",
-                "reference": "a483da6a176e4677a61bc038af9208dbcbad1092",
+                "url": "https://api.github.com/repos/phpsoftbox/container/zipball/32caee94005052b9a3e0f6f1aa7cfcac639155bd",
+                "reference": "32caee94005052b9a3e0f6f1aa7cfcac639155bd",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4",
-                "phpsoftbox/profiler": "dev-master",
+                "php": "^8.5",
+                "phpsoftbox/profiler": "^1.0",
                 "psr/container": "^2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cli-app": "^1.0",
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/env": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
+            "suggest": {
+                "phpsoftbox/env": "Lets the env() definition helper read values loaded from .env into EnvStorage."
+            },
             "type": "library",
             "extra": {
                 "psb": {
@@ -1194,40 +1182,37 @@
             "description": "Dependency injection container for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/container/issues",
-                "source": "https://github.com/phpsoftbox/container/tree/master"
+                "source": "https://github.com/phpsoftbox/container/tree/v1.0.0"
             },
-            "time": "2026-06-22T08:02:48+00:00"
+            "time": "2026-09-29T10:23:43+00:00"
         },
         {
             "name": "phpsoftbox/cookie",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/cookie.git",
-                "reference": "bff907cbaeac5d0b94494b8725f31a0962597066"
+                "reference": "06e00ba269207a74ae710f6aa85a729450dd12e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/cookie/zipball/bff907cbaeac5d0b94494b8725f31a0962597066",
-                "reference": "bff907cbaeac5d0b94494b8725f31a0962597066",
+                "url": "https://api.github.com/repos/phpsoftbox/cookie/zipball/06e00ba269207a74ae710f6aa85a729450dd12e9",
+                "reference": "06e00ba269207a74ae710f6aa85a729450dd12e9",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4",
-                "phpsoftbox/encryptor": "dev-master",
+                "php": "^8.5",
+                "phpsoftbox/encryptor": "^1.0",
                 "psr/http-message": "^2.0",
                 "psr/http-server-handler": "^1.0",
                 "psr/http-server-middleware": "^1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cache": "dev-master",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/http-message": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cache": "^1.0",
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/http-message": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1238,39 +1223,36 @@
             "description": "Cookie component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/cookie/issues",
-                "source": "https://github.com/phpsoftbox/cookie/tree/master"
+                "source": "https://github.com/phpsoftbox/cookie/tree/v1.0.0"
             },
-            "time": "2026-03-05T11:38:50+00:00"
+            "time": "2026-09-29T10:23:47+00:00"
         },
         {
             "name": "phpsoftbox/data-casting",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/data-casting.git",
-                "reference": "7dbfa3ec53ca2e6513ba2b4d239aa5ecdef7a994"
+                "reference": "62a8cd939f4346477619f1895176c72ec6a65056"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/data-casting/zipball/7dbfa3ec53ca2e6513ba2b4d239aa5ecdef7a994",
-                "reference": "7dbfa3ec53ca2e6513ba2b4d239aa5ecdef7a994",
+                "url": "https://api.github.com/repos/phpsoftbox/data-casting/zipball/62a8cd939f4346477619f1895176c72ec6a65056",
+                "reference": "62a8cd939f4346477619f1895176c72ec6a65056",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.5",
-                "phpsoftbox/clock": "dev-master",
-                "phpsoftbox/filter": "dev-master",
+                "phpsoftbox/clock": "^1.0",
+                "phpsoftbox/filter": "^1.0",
                 "ramsey/uuid": "^4.7"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/encryptor": "dev-master",
-                "phpsoftbox/storage": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/encryptor": "^1.0",
+                "phpsoftbox/storage": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1290,34 +1272,32 @@
             "description": "Data casting component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/data-casting/issues",
-                "source": "https://github.com/phpsoftbox/data-casting/tree/master"
+                "source": "https://github.com/phpsoftbox/data-casting/tree/v1.0.0"
             },
-            "time": "2026-08-23T10:12:10+00:00"
+            "time": "2026-09-29T10:24:01+00:00"
         },
         {
             "name": "phpsoftbox/encryptor",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/encryptor.git",
-                "reference": "f9efb8a94ba8e58d69d80fba20c082c3299fa6d9"
+                "reference": "14f1dfdceedb7378f78036deeb3edb1ae75a62df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/encryptor/zipball/f9efb8a94ba8e58d69d80fba20c082c3299fa6d9",
-                "reference": "f9efb8a94ba8e58d69d80fba20c082c3299fa6d9",
+                "url": "https://api.github.com/repos/phpsoftbox/encryptor/zipball/14f1dfdceedb7378f78036deeb3edb1ae75a62df",
+                "reference": "14f1dfdceedb7378f78036deeb3edb1ae75a62df",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4"
+                "php": "^8.5"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cli-app": "^1.0",
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "psb": {
@@ -1344,38 +1324,36 @@
             "description": "Encryptor component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/encryptor/issues",
-                "source": "https://github.com/phpsoftbox/encryptor/tree/master"
+                "source": "https://github.com/phpsoftbox/encryptor/tree/v1.0.0"
             },
-            "time": "2026-03-12T07:23:53+00:00"
+            "time": "2026-09-29T10:24:15+00:00"
         },
         {
             "name": "phpsoftbox/env",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/env.git",
-                "reference": "276c49ae6078831e964492c825e6b2641a595268"
+                "reference": "c6225ef76bd3b200f09c2f1f82d17d23e8fe57ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/env/zipball/276c49ae6078831e964492c825e6b2641a595268",
-                "reference": "276c49ae6078831e964492c825e6b2641a595268",
+                "url": "https://api.github.com/repos/phpsoftbox/env/zipball/c6225ef76bd3b200f09c2f1f82d17d23e8fe57ac",
+                "reference": "c6225ef76bd3b200f09c2f1f82d17d23e8fe57ac",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4",
-                "phpsoftbox/collection": "dev-master",
-                "phpsoftbox/filter": "dev-master",
+                "php": "^8.5",
+                "phpsoftbox/collection": "^1.0",
+                "phpsoftbox/filter": "^1.0",
                 "psr/simple-cache": "^3.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cache": "dev-master",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cache": "^1.0",
+                "phpsoftbox/cli-app": "^1.0",
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "psb": {
@@ -1405,34 +1383,31 @@
             "description": "Environment variables loader for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/env/issues",
-                "source": "https://github.com/phpsoftbox/env/tree/master"
+                "source": "https://github.com/phpsoftbox/env/tree/v1.0.0"
             },
-            "time": "2026-08-03T10:12:37+00:00"
+            "time": "2026-09-29T10:24:20+00:00"
         },
         {
             "name": "phpsoftbox/error-formatter",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/error-formatter.git",
-                "reference": "e0e5f3760c4645e810d770c3ff677f40c055a34b"
+                "reference": "68770c8906cd123b87018266197f59185d6cf186"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/error-formatter/zipball/e0e5f3760c4645e810d770c3ff677f40c055a34b",
-                "reference": "e0e5f3760c4645e810d770c3ff677f40c055a34b",
+                "url": "https://api.github.com/repos/phpsoftbox/error-formatter/zipball/68770c8906cd123b87018266197f59185d6cf186",
+                "reference": "68770c8906cd123b87018266197f59185d6cf186",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4"
+                "php": "^8.5"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1452,34 +1427,32 @@
             "description": "Throwable formatting helpers for PhpSoftBox components",
             "support": {
                 "issues": "https://github.com/phpsoftbox/error-formatter/issues",
-                "source": "https://github.com/phpsoftbox/error-formatter/tree/master"
+                "source": "https://github.com/phpsoftbox/error-formatter/tree/v1.0.0"
             },
-            "time": "2026-03-18T21:06:45+00:00"
+            "time": "2026-09-29T10:24:24+00:00"
         },
         {
             "name": "phpsoftbox/filter",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/filter.git",
-                "reference": "70b579c1fc5aac3c643a5eb2fa23f00d6e3af076"
+                "reference": "10613e2f2634607f77851f1c5c596417ad44e672"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/filter/zipball/70b579c1fc5aac3c643a5eb2fa23f00d6e3af076",
-                "reference": "70b579c1fc5aac3c643a5eb2fa23f00d6e3af076",
+                "url": "https://api.github.com/repos/phpsoftbox/filter/zipball/10613e2f2634607f77851f1c5c596417ad44e672",
+                "reference": "10613e2f2634607f77851f1c5c596417ad44e672",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4"
+                "php": "^8.5",
+                "phpsoftbox/inflector": "^1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1499,38 +1472,39 @@
             "description": "Reusable value filters for PhpSoftBox components",
             "support": {
                 "issues": "https://github.com/phpsoftbox/filter/issues",
-                "source": "https://github.com/phpsoftbox/filter/tree/master"
+                "source": "https://github.com/phpsoftbox/filter/tree/v1.0.0"
             },
-            "time": "2026-08-03T10:07:10+00:00"
+            "time": "2026-09-29T10:24:34+00:00"
         },
         {
             "name": "phpsoftbox/http-client",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/http-client.git",
-                "reference": "ce39eaed4a25fdfe4db85f61296213b0dc57ffa0"
+                "reference": "64856a41a79aeba85aa6c27eb6c5642b81c63b12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/http-client/zipball/ce39eaed4a25fdfe4db85f61296213b0dc57ffa0",
-                "reference": "ce39eaed4a25fdfe4db85f61296213b0dc57ffa0",
+                "url": "https://api.github.com/repos/phpsoftbox/http-client/zipball/64856a41a79aeba85aa6c27eb6c5642b81c63b12",
+                "reference": "64856a41a79aeba85aa6c27eb6c5642b81c63b12",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4",
+                "ext-curl": "*",
+                "php": "^8.5",
+                "phpsoftbox/http-message": "^1.0",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^2.0"
             },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/http-message": "dev-master",
-                "phpunit/phpunit": "^11.2"
+            "provide": {
+                "psr/http-client-implementation": "1.0"
             },
-            "default-branch": true,
+            "require-dev": {
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
+            },
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1550,22 +1524,22 @@
             "description": "PSR-18 HTTP client implementation for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/http-client/issues",
-                "source": "https://github.com/phpsoftbox/http-client/tree/master"
+                "source": "https://github.com/phpsoftbox/http-client/tree/v1.0.0"
             },
-            "time": "2026-03-05T11:41:35+00:00"
+            "time": "2026-09-29T10:24:43+00:00"
         },
         {
             "name": "phpsoftbox/http-emitter",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/http-emitter.git",
-                "reference": "136f142504f4bd21963365a5a8befa2ea655c5cf"
+                "reference": "716dd485f4a14b7e64378baba3a2613f0b652666"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/http-emitter/zipball/136f142504f4bd21963365a5a8befa2ea655c5cf",
-                "reference": "136f142504f4bd21963365a5a8befa2ea655c5cf",
+                "url": "https://api.github.com/repos/phpsoftbox/http-emitter/zipball/716dd485f4a14b7e64378baba3a2613f0b652666",
+                "reference": "716dd485f4a14b7e64378baba3a2613f0b652666",
                 "shasum": ""
             },
             "require": {
@@ -1573,13 +1547,10 @@
                 "psr/http-message": "^2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/http-message": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/http-message": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1599,38 +1570,33 @@
             "description": "HTTP response emitter for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/http-emitter/issues",
-                "source": "https://github.com/phpsoftbox/http-emitter/tree/master"
+                "source": "https://github.com/phpsoftbox/http-emitter/tree/v1.0.0"
             },
-            "time": "2026-09-02T14:13:38+00:00"
+            "time": "2026-09-29T10:24:48+00:00"
         },
         {
             "name": "phpsoftbox/http-message",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/http-message.git",
-                "reference": "3d37c24395daab57e6244edc8da326fbb4c215f3"
+                "reference": "15317fc8fabf9c8370d185eeeda805e08a54b55c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/http-message/zipball/3d37c24395daab57e6244edc8da326fbb4c215f3",
-                "reference": "3d37c24395daab57e6244edc8da326fbb4c215f3",
+                "url": "https://api.github.com/repos/phpsoftbox/http-message/zipball/15317fc8fabf9c8370d185eeeda805e08a54b55c",
+                "reference": "15317fc8fabf9c8370d185eeeda805e08a54b55c",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4",
-                "phpsoftbox/router": "dev-master",
-                "phpsoftbox/session": "dev-master",
+                "php": "^8.5",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1650,37 +1616,86 @@
             "description": "PSR-7/PSR-17 HTTP message implementation for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/http-message/issues",
-                "source": "https://github.com/phpsoftbox/http-message/tree/master"
+                "source": "https://github.com/phpsoftbox/http-message/tree/v1.0.0"
             },
-            "time": "2026-03-24T17:41:18+00:00"
+            "time": "2026-09-29T10:24:53+00:00"
         },
         {
-            "name": "phpsoftbox/mongo",
-            "version": "dev-master",
+            "name": "phpsoftbox/inflector",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/phpsoftbox/mongodb.git",
-                "reference": "4633306b5ba9b14c398f067621c69dc8f17da1d8"
+                "url": "https://github.com/phpsoftbox/inflector.git",
+                "reference": "f883d1116c9650a5ec604e1e3b8a095ee9b6517b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/mongodb/zipball/4633306b5ba9b14c398f067621c69dc8f17da1d8",
-                "reference": "4633306b5ba9b14c398f067621c69dc8f17da1d8",
+                "url": "https://api.github.com/repos/phpsoftbox/inflector/zipball/f883d1116c9650a5ec604e1e3b8a095ee9b6517b",
+                "reference": "f883d1116c9650a5ec604e1e3b8a095ee9b6517b",
                 "shasum": ""
             },
             "require": {
-                "ext-mongodb": "*",
-                "mongodb/mongodb": "^1.16 || ^2.0",
-                "php": "^8.5",
-                "phpsoftbox/collection": "dev-master"
+                "php": "^8.5"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
+            "suggest": {
+                "ext-iconv": "Transliterates accented Latin letters (é -> e) in urlize() and Transliterator; Cyrillic works without it.",
+                "ext-mbstring": "Improves unicode lowercasing for tableize() and urlize()."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpSoftBox\\Inflector\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton K.",
+                    "email": "inspector-who@mail.ru"
+                }
+            ],
+            "description": "Inflector (pluralize/singularize) for the PhpSoftBox framework",
+            "support": {
+                "issues": "https://github.com/phpsoftbox/inflector/issues",
+                "source": "https://github.com/phpsoftbox/inflector/tree/v1.0.0"
+            },
+            "time": "2026-09-29T10:25:03+00:00"
+        },
+        {
+            "name": "phpsoftbox/mongo",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpsoftbox/mongodb.git",
+                "reference": "b51105fda5dc04ee40ed457233a6ccc8ca2a47ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpsoftbox/mongodb/zipball/b51105fda5dc04ee40ed457233a6ccc8ca2a47ac",
+                "reference": "b51105fda5dc04ee40ed457233a6ccc8ca2a47ac",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mongodb": "^2.4",
+                "mongodb/mongodb": "^2.4.1",
+                "php": "^8.5",
+                "phpsoftbox/collection": "^1.0"
+            },
+            "require-dev": {
+                "phpsoftbox/cli-app": "^1.0",
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
+            },
+            "suggest": {
+                "phpsoftbox/cli-app": "Required for mongo:migrate, mongo:migrate:rollback and mongo:migrate:make commands (MongoCommandProvider)."
+            },
             "type": "library",
             "extra": {
                 "psb": {
@@ -1707,39 +1722,37 @@
             "description": "MongoDB connection manager component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/mongodb/issues",
-                "source": "https://github.com/phpsoftbox/mongodb/tree/master"
+                "source": "https://github.com/phpsoftbox/mongodb/tree/v1.0.0"
             },
-            "time": "2026-08-17T13:52:24+00:00"
+            "time": "2026-09-29T10:28:43+00:00"
         },
         {
             "name": "phpsoftbox/profiler",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/profiler.git",
-                "reference": "f2e9995faaa5c55d35eec5c35e14187e9e0de634"
+                "reference": "c41813f2b1aa4522b0b0160211eec8a0929d151f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/profiler/zipball/f2e9995faaa5c55d35eec5c35e14187e9e0de634",
-                "reference": "f2e9995faaa5c55d35eec5c35e14187e9e0de634",
+                "url": "https://api.github.com/repos/phpsoftbox/profiler/zipball/c41813f2b1aa4522b0b0160211eec8a0929d151f",
+                "reference": "c41813f2b1aa4522b0b0160211eec8a0929d151f",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4",
+                "php": "^8.5",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^2.0",
                 "psr/http-server-handler": "^1.0",
-                "psr/http-server-middleware": "^1.0"
+                "psr/http-server-middleware": "^1.0",
+                "psr/log": "^3.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/http-message": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/http-message": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1759,35 +1772,36 @@
             "description": "Lifecycle profiler contracts and runtime for PhpSoftBox",
             "support": {
                 "issues": "https://github.com/phpsoftbox/profiler/issues",
-                "source": "https://github.com/phpsoftbox/profiler/tree/master"
+                "source": "https://github.com/phpsoftbox/profiler/tree/v1.0.0"
             },
-            "time": "2026-06-22T10:09:58+00:00"
+            "time": "2026-09-29T10:25:55+00:00"
         },
         {
             "name": "phpsoftbox/rate-limiter",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/rate-limiter.git",
-                "reference": "3af7ed12c072d9ad965e4c896b9528bfe0f27652"
+                "reference": "007ed0872a9ff2da68985f6778173604031f9e6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/rate-limiter/zipball/3af7ed12c072d9ad965e4c896b9528bfe0f27652",
-                "reference": "3af7ed12c072d9ad965e4c896b9528bfe0f27652",
+                "url": "https://api.github.com/repos/phpsoftbox/rate-limiter/zipball/007ed0872a9ff2da68985f6778173604031f9e6f",
+                "reference": "007ed0872a9ff2da68985f6778173604031f9e6f",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.5",
+                "psr/clock": "^1.0",
                 "psr/simple-cache": "^3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
             },
             "suggest": {
-                "ext-redis": "Required when RedisRateLimiter is used with the PhpRedis client."
+                "ext-redis": "Required by RedisRateLimiter / RedisAtomicRateLimitStore (PhpRedis client: Redis or RedisCluster)."
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1801,37 +1815,36 @@
             "description": "Rate limiter component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/rate-limiter/issues",
-                "source": "https://github.com/phpsoftbox/rate-limiter/tree/master"
+                "source": "https://github.com/phpsoftbox/rate-limiter/tree/v1.0.0"
             },
-            "time": "2026-08-31T14:51:32+00:00"
+            "time": "2026-09-29T10:26:04+00:00"
         },
         {
             "name": "phpsoftbox/request",
-            "version": "dev-master",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/request.git",
-                "reference": "95ece200e6494e886512affa1cbae5638c892948"
+                "reference": "1d5fc49a944921a0cafc5fa6a3e62242f95aaf1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/request/zipball/95ece200e6494e886512affa1cbae5638c892948",
-                "reference": "95ece200e6494e886512affa1cbae5638c892948",
+                "url": "https://api.github.com/repos/phpsoftbox/request/zipball/1d5fc49a944921a0cafc5fa6a3e62242f95aaf1e",
+                "reference": "1d5fc49a944921a0cafc5fa6a3e62242f95aaf1e",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.5",
-                "phpsoftbox/validator": "dev-master",
+                "phpsoftbox/collection": "^1.0",
+                "phpsoftbox/validator": "^1.0",
                 "psr/http-message": "^2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/http-message": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/filter": "^1.0",
+                "phpsoftbox/http-message": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1851,41 +1864,38 @@
             "description": "Request component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/request/issues",
-                "source": "https://github.com/phpsoftbox/request/tree/master"
+                "source": "https://github.com/phpsoftbox/request/tree/v1.2.1"
             },
-            "time": "2026-08-23T09:30:41+00:00"
+            "time": "2026-09-29T14:04:47+00:00"
         },
         {
             "name": "phpsoftbox/resource",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/resource.git",
-                "reference": "e5b10bc6cad85877cec401a3401f119752526d06"
+                "reference": "3b0155e77ba951335695a080eb860dc55a0dc785"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/resource/zipball/e5b10bc6cad85877cec401a3401f119752526d06",
-                "reference": "e5b10bc6cad85877cec401a3401f119752526d06",
+                "url": "https://api.github.com/repos/phpsoftbox/resource/zipball/3b0155e77ba951335695a080eb860dc55a0dc785",
+                "reference": "3b0155e77ba951335695a080eb860dc55a0dc785",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.5",
-                "phpsoftbox/collection": "dev-master"
+                "phpsoftbox/collection": "^1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/http-message": "dev-master",
-                "phpsoftbox/orm": "dev-master",
-                "phpsoftbox/pagination": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/http-message": "^1.0",
+                "phpsoftbox/orm": "^1.0",
+                "phpsoftbox/pagination": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
             "suggest": {
                 "phpsoftbox/orm": "Provides relation load-state for whenLoaded() and requireLoaded()."
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1905,29 +1915,29 @@
             "description": "Resource component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/resource/issues",
-                "source": "https://github.com/phpsoftbox/resource/tree/master"
+                "source": "https://github.com/phpsoftbox/resource/tree/v1.0.0"
             },
-            "time": "2026-08-14T18:08:53+00:00"
+            "time": "2026-09-29T10:26:19+00:00"
         },
         {
             "name": "phpsoftbox/router",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/router.git",
-                "reference": "3c35868fb027c37ec57168e8db35f488d507bd21"
+                "reference": "333494afc677490c12c80e9a9e32de1a4cae3b52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/router/zipball/3c35868fb027c37ec57168e8db35f488d507bd21",
-                "reference": "3c35868fb027c37ec57168e8db35f488d507bd21",
+                "url": "https://api.github.com/repos/phpsoftbox/router/zipball/333494afc677490c12c80e9a9e32de1a4cae3b52",
+                "reference": "333494afc677490c12c80e9a9e32de1a4cae3b52",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.5",
-                "phpsoftbox/profiler": "dev-master",
-                "phpsoftbox/request": "dev-master",
-                "phpsoftbox/validator": "dev-master",
+                "phpsoftbox/profiler": "^1.0",
+                "phpsoftbox/request": "^1.0",
+                "phpsoftbox/validator": "^1.0",
                 "psr/container": "^2.0",
                 "psr/http-message": "^2.0",
                 "psr/http-server-handler": "^1.0",
@@ -1935,13 +1945,14 @@
                 "psr/simple-cache": "^3.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/http-message": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cli-app": "^1.0",
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/http-message": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
+            "suggest": {
+                "phpsoftbox/cli-app": "Required for router:cache:* commands (RouterCommandProvider)."
+            },
             "type": "library",
             "extra": {
                 "psb": {
@@ -1968,43 +1979,41 @@
             "description": "Router component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/router/issues",
-                "source": "https://github.com/phpsoftbox/router/tree/master"
+                "source": "https://github.com/phpsoftbox/router/tree/v1.0.0"
             },
-            "time": "2026-08-31T14:55:33+00:00"
+            "time": "2026-09-29T10:26:24+00:00"
         },
         {
             "name": "phpsoftbox/session",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/session.git",
-                "reference": "c855b146ea416497e3bca8aa315dcb2fe8cae86b"
+                "reference": "d70872fdabee0269fc0039111c6f42f736fa73db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/session/zipball/c855b146ea416497e3bca8aa315dcb2fe8cae86b",
-                "reference": "c855b146ea416497e3bca8aa315dcb2fe8cae86b",
+                "url": "https://api.github.com/repos/phpsoftbox/session/zipball/d70872fdabee0269fc0039111c6f42f736fa73db",
+                "reference": "d70872fdabee0269fc0039111c6f42f736fa73db",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4",
-                "phpsoftbox/cookie": "dev-master",
+                "php": "^8.5",
+                "phpsoftbox/cookie": "^1.0",
                 "psr/http-message": "^2.0",
                 "psr/http-server-handler": "^1.0",
                 "psr/http-server-middleware": "^1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.94",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/database": "dev-master",
-                "phpsoftbox/http-message": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cli-app": "^1.0",
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/database": "^1.0",
+                "phpsoftbox/http-message": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
             "suggest": {
                 "phpsoftbox/database": "Required for DatabaseSessionStore."
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "psb": {
@@ -2031,37 +2040,34 @@
             "description": "Session component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/session/issues",
-                "source": "https://github.com/phpsoftbox/session/tree/master"
+                "source": "https://github.com/phpsoftbox/session/tree/v1.0.0"
             },
-            "time": "2026-07-14T11:35:14+00:00"
+            "time": "2026-09-29T10:26:33+00:00"
         },
         {
             "name": "phpsoftbox/storage",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/storage.git",
-                "reference": "243d11e6155b2f6d838326d58d3749a494d15f17"
+                "reference": "4a87f0685fdc22149f7a9ad80e9c9b843bc80d82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/storage/zipball/243d11e6155b2f6d838326d58d3749a494d15f17",
-                "reference": "243d11e6155b2f6d838326d58d3749a494d15f17",
+                "url": "https://api.github.com/repos/phpsoftbox/storage/zipball/4a87f0685fdc22149f7a9ad80e9c9b843bc80d82",
+                "reference": "4a87f0685fdc22149f7a9ad80e9c9b843bc80d82",
                 "shasum": ""
             },
             "require": {
                 "aws/aws-sdk-php": "^3.0",
-                "php": "^8.4",
+                "php": "^8.5",
                 "psr/http-message": "^2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/http-message": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/http-message": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -2081,43 +2087,40 @@
             "description": "Storage component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/storage/issues",
-                "source": "https://github.com/phpsoftbox/storage/tree/master"
+                "source": "https://github.com/phpsoftbox/storage/tree/v1.0.0"
             },
-            "time": "2026-06-10T09:26:04+00:00"
+            "time": "2026-09-29T10:26:43+00:00"
         },
         {
             "name": "phpsoftbox/validator",
-            "version": "dev-master",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/validator.git",
-                "reference": "c3725fbaf84a36aa0a57958c3b2bb39210c9aa0e"
+                "reference": "977e2c31938fba94fb6da8d8a0d93f9c3445135c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/validator/zipball/c3725fbaf84a36aa0a57958c3b2bb39210c9aa0e",
-                "reference": "c3725fbaf84a36aa0a57958c3b2bb39210c9aa0e",
+                "url": "https://api.github.com/repos/phpsoftbox/validator/zipball/977e2c31938fba94fb6da8d8a0d93f9c3445135c",
+                "reference": "977e2c31938fba94fb6da8d8a0d93f9c3445135c",
                 "shasum": ""
             },
             "require": {
                 "ext-fileinfo": "*",
-                "php": "^8.4",
-                "phpsoftbox/collection": "dev-master",
-                "phpsoftbox/filter": "dev-master",
+                "php": "^8.5",
+                "phpsoftbox/collection": "^1.0",
+                "phpsoftbox/filter": "^1.0",
                 "psr/http-message": "^2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/http-message": "dev-master",
-                "phpsoftbox/session": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/http-message": "^1.0",
+                "phpsoftbox/session": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
             "suggest": {
                 "phpsoftbox/validator-db": "Provides database-backed exists and unique validation rules."
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -2137,34 +2140,31 @@
             "description": "Validator component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/validator/issues",
-                "source": "https://github.com/phpsoftbox/validator/tree/master"
+                "source": "https://github.com/phpsoftbox/validator/tree/v1.0.1"
             },
-            "time": "2026-08-03T10:22:23+00:00"
+            "time": "2026-09-29T12:25:44+00:00"
         },
         {
             "name": "phpsoftbox/view",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/view.git",
-                "reference": "3f8dbda8b0210d98e6afe97bb54d7d862f33bce1"
+                "reference": "d75864cf4d71127eedde224cb981495eca2b17f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/view/zipball/3f8dbda8b0210d98e6afe97bb54d7d862f33bce1",
-                "reference": "3f8dbda8b0210d98e6afe97bb54d7d862f33bce1",
+                "url": "https://api.github.com/repos/phpsoftbox/view/zipball/d75864cf4d71127eedde224cb981495eca2b17f2",
+                "reference": "d75864cf4d71127eedde224cb981495eca2b17f2",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4"
+                "php": "^8.5"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -2187,9 +2187,9 @@
             "description": "Simple PHP view renderer for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/view/issues",
-                "source": "https://github.com/phpsoftbox/view/tree/master"
+                "source": "https://github.com/phpsoftbox/view/tree/v1.0.0"
             },
-            "time": "2026-04-08T23:50:34+00:00"
+            "time": "2026-09-29T10:27:10+00:00"
         },
         {
             "name": "picqer/php-barcode-generator",
@@ -2873,20 +2873,20 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "4.9.3",
+            "version": "4.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "1df15849d00943a67d677dc9cfd80795f038c9f8"
+                "reference": "75d73f48d02797c2c285a7e9f348fadc0102ffe2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/1df15849d00943a67d677dc9cfd80795f038c9f8",
-                "reference": "1df15849d00943a67d677dc9cfd80795f038c9f8",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/75d73f48d02797c2c285a7e9f348fadc0102ffe2",
+                "reference": "75d73f48d02797c2c285a7e9f348fadc0102ffe2",
                 "shasum": ""
             },
             "require": {
-                "brick/math": ">=0.8.16 <=0.18",
+                "brick/math": "^0.8.16 || ^0.9 || ^0.10 || ^0.11 || ^0.12 || ^0.13 || ^0.14 || ^0.15 || ^0.16 || ^0.17 || ^0.18 || ^0.19 || ^0.20 || ^1.0",
                 "php": "^8.0",
                 "ramsey/collection": "^1.2 || ^2.0"
             },
@@ -2945,9 +2945,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ramsey/uuid/issues",
-                "source": "https://github.com/ramsey/uuid/tree/4.9.3"
+                "source": "https://github.com/ramsey/uuid/tree/4.9.4"
             },
-            "time": "2026-06-18T03:57:49+00:00"
+            "time": "2026-09-16T11:39:30+00:00"
         },
         {
             "name": "setasign/fpdf",
@@ -3693,16 +3693,16 @@
         },
         {
             "name": "composer/semver",
-            "version": "3.4.4",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/semver.git",
-                "reference": "198166618906cb2de69b95d7d47e5fa8aa1b2b95"
+                "reference": "f7a296f4c4cf8cb8bb83e35d6951a406bb11afa5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/semver/zipball/198166618906cb2de69b95d7d47e5fa8aa1b2b95",
-                "reference": "198166618906cb2de69b95d7d47e5fa8aa1b2b95",
+                "url": "https://api.github.com/repos/composer/semver/zipball/f7a296f4c4cf8cb8bb83e35d6951a406bb11afa5",
+                "reference": "f7a296f4c4cf8cb8bb83e35d6951a406bb11afa5",
                 "shasum": ""
             },
             "require": {
@@ -3744,7 +3744,7 @@
                     "homepage": "http://robbast.nl"
                 }
             ],
-            "description": "Semver library that offers utilities, version constraint parsing and validation.",
+            "description": "Version comparison library that offers utilities, version constraint parsing and validation.",
             "keywords": [
                 "semantic",
                 "semver",
@@ -3754,7 +3754,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/semver/issues",
-                "source": "https://github.com/composer/semver/tree/3.4.4"
+                "source": "https://github.com/composer/semver/tree/3.5.0"
             },
             "funding": [
                 {
@@ -3766,7 +3766,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-20T19:15:30+00:00"
+            "time": "2026-09-24T14:38:51+00:00"
         },
         {
             "name": "composer/xdebug-handler",
@@ -3952,23 +3952,23 @@
         },
         {
             "name": "fidry/cpu-core-counter",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theofidry/cpu-core-counter.git",
-                "reference": "db9508f7b1474469d9d3c53b86f817e344732678"
+                "reference": "7cbeb03e286fa81b2bbe0e6bd6b8a27c71a3144d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theofidry/cpu-core-counter/zipball/db9508f7b1474469d9d3c53b86f817e344732678",
-                "reference": "db9508f7b1474469d9d3c53b86f817e344732678",
+                "url": "https://api.github.com/repos/theofidry/cpu-core-counter/zipball/7cbeb03e286fa81b2bbe0e6bd6b8a27c71a3144d",
+                "reference": "7cbeb03e286fa81b2bbe0e6bd6b8a27c71a3144d",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "fidry/makefile": "^0.2.0",
+                "fidry/makefile": "^0.2.0 || ^1.1.2",
                 "fidry/php-cs-fixer-config": "^1.1.2",
                 "phpstan/extension-installer": "^1.2.0",
                 "phpstan/phpstan": "^2.0",
@@ -3976,6 +3976,7 @@
                 "phpstan/phpstan-phpunit": "^2.0",
                 "phpstan/phpstan-strict-rules": "^2.0",
                 "phpunit/phpunit": "^8.5.31 || ^9.5.26",
+                "symfony/polyfill-mbstring": "^1.33",
                 "webmozarts/strict-phpunit": "^7.5"
             },
             "type": "library",
@@ -4001,7 +4002,7 @@
             ],
             "support": {
                 "issues": "https://github.com/theofidry/cpu-core-counter/issues",
-                "source": "https://github.com/theofidry/cpu-core-counter/tree/1.3.0"
+                "source": "https://github.com/theofidry/cpu-core-counter/tree/1.4.0"
             },
             "funding": [
                 {
@@ -4009,20 +4010,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-14T07:29:31+00:00"
+            "time": "2026-09-27T17:40:20+00:00"
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.95.25",
+            "version": "v3.95.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "2cdfc1f3daf173d83a1ebb6177949b58c95de6ff"
+                "reference": "1d0c68ee5f37446d8ad5970b82384cd1bb0a3317"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/2cdfc1f3daf173d83a1ebb6177949b58c95de6ff",
-                "reference": "2cdfc1f3daf173d83a1ebb6177949b58c95de6ff",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/1d0c68ee5f37446d8ad5970b82384cd1bb0a3317",
+                "reference": "1d0c68ee5f37446d8ad5970b82384cd1bb0a3317",
                 "shasum": ""
             },
             "require": {
@@ -4056,15 +4057,15 @@
             "require-dev": {
                 "facile-it/paraunit": "^1.3.1 || ^2.11.0",
                 "infection/infection": "^0.32.7",
-                "justinrainbow/json-schema": "^6.10.0",
+                "justinrainbow/json-schema": "^6.12.0",
                 "keradus/cli-executor": "^2.3",
                 "php-coveralls/php-coveralls": "^2.9.1",
                 "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.8",
                 "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.8",
-                "phpunit/phpunit": "^9.6.35 || ^10.5.64 || ^11.5.56 || ^12.5.31 || ^13.0.6",
-                "symfony/polyfill-php85": "^1.38",
-                "symfony/var-dumper": "^5.4.48 || ^6.4.36 || ^7.4.8 || ^8.1.1",
-                "symfony/yaml": "^5.4.53 || ^6.4.41 || ^7.4.13 || ^8.1.1"
+                "phpunit/phpunit": "^9.6.36 || ^10.5.64 || ^11.5.56 || ^12.5.35 || ^13.3.3",
+                "symfony/polyfill-php85": "^1.41",
+                "symfony/var-dumper": "^5.4.48 || ^6.4.45 || ^7.4.18 || ^8.1.7",
+                "symfony/yaml": "^5.4.53 || ^6.4.45 || ^7.4.18 || ^8.1.6"
             },
             "suggest": {
                 "ext-dom": "For handling output formats in XML",
@@ -4105,7 +4106,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.25"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.27"
             },
             "funding": [
                 {
@@ -4113,7 +4114,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-08T11:11:37+00:00"
+            "time": "2026-09-22T09:54:55+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -4352,25 +4353,25 @@
         },
         {
             "name": "phpsoftbox/cs-fixer",
-            "version": "v1.1.0",
+            "version": "v1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/cs-fixer.git",
-                "reference": "ac4cd9f1fc24f64edd241b9ffc8ba0b6c06a0288"
+                "reference": "1bd22ea1b354d6a3522ca30bbe5899c89bf6ce29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/cs-fixer/zipball/ac4cd9f1fc24f64edd241b9ffc8ba0b6c06a0288",
-                "reference": "ac4cd9f1fc24f64edd241b9ffc8ba0b6c06a0288",
+                "url": "https://api.github.com/repos/phpsoftbox/cs-fixer/zipball/1bd22ea1b354d6a3522ca30bbe5899c89bf6ce29",
+                "reference": "1bd22ea1b354d6a3522ca30bbe5899c89bf6ce29",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4"
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "php": "^8.5",
+                "phpsoftbox/cli-app": "^1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpunit/phpunit": "^13.3"
             },
             "bin": [
                 "bin/psb-cs-fixer"
@@ -4394,40 +4395,42 @@
             "description": "CS Fixer rules for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/cs-fixer/issues",
-                "source": "https://github.com/phpsoftbox/cs-fixer/tree/v1.1.0"
+                "source": "https://github.com/phpsoftbox/cs-fixer/tree/v1.2.2"
             },
-            "time": "2026-03-05T11:09:47+00:00"
+            "time": "2026-09-29T10:27:35+00:00"
         },
         {
             "name": "phpsoftbox/ozon",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/ozon.git",
-                "reference": "3d28e1dd3d02f1aa17a88f8d48687f135e024e42"
+                "reference": "f0336c9b65cc16931ed198ee6f3a315d6ebe9696"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/ozon/zipball/3d28e1dd3d02f1aa17a88f8d48687f135e024e42",
-                "reference": "3d28e1dd3d02f1aa17a88f8d48687f135e024e42",
+                "url": "https://api.github.com/repos/phpsoftbox/ozon/zipball/f0336c9b65cc16931ed198ee6f3a315d6ebe9696",
+                "reference": "f0336c9b65cc16931ed198ee6f3a315d6ebe9696",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.5",
-                "phpsoftbox/collection": "dev-master",
+                "phpsoftbox/collection": "^1.0",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpsoftbox/cli-app": "dev-master",
-                "phpsoftbox/code-generator": "dev-master",
-                "phpsoftbox/cs-fixer": "^1.1.0",
-                "phpsoftbox/http-message": "dev-master",
-                "phpunit/phpunit": "^11.2"
+                "phpsoftbox/cli-app": "^1.0",
+                "phpsoftbox/code-generator": "^1.0",
+                "phpsoftbox/cs-fixer": "^1.2.2",
+                "phpsoftbox/http-message": "^1.0",
+                "phpunit/phpunit": "^13.3"
             },
-            "default-branch": true,
+            "suggest": {
+                "phpsoftbox/cli-app": "Required for the ozon:openapi:generate-dto DTO generator command (maintainer tooling).",
+                "phpsoftbox/code-generator": "Required for DTO generation from OpenAPI (maintainer tooling)."
+            },
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -4447,9 +4450,9 @@
             "description": "Ozon API client component for the PhpSoftBox framework",
             "support": {
                 "issues": "https://github.com/phpsoftbox/ozon/issues",
-                "source": "https://github.com/phpsoftbox/ozon/tree/master"
+                "source": "https://github.com/phpsoftbox/ozon/tree/v1.0.0"
             },
-            "time": "2026-09-28T16:42:40+00:00"
+            "time": "2026-09-29T10:25:40+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -6508,16 +6511,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v8.1.6",
+            "version": "v8.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "eb7d9957d66739649e931ce7a9d05dab69f8abac"
+                "reference": "4b81146e3ee248ea969186f85499b54fbc78db08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/eb7d9957d66739649e931ce7a9d05dab69f8abac",
-                "reference": "eb7d9957d66739649e931ce7a9d05dab69f8abac",
+                "url": "https://api.github.com/repos/symfony/console/zipball/4b81146e3ee248ea969186f85499b54fbc78db08",
+                "reference": "4b81146e3ee248ea969186f85499b54fbc78db08",
                 "shasum": ""
             },
             "require": {
@@ -6584,7 +6587,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v8.1.6"
+                "source": "https://github.com/symfony/console/tree/v8.1.8"
             },
             "funding": [
                 {
@@ -6604,7 +6607,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-25T14:18:42+00:00"
+            "time": "2026-09-18T16:00:27+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -6774,16 +6777,16 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v8.1.5",
+            "version": "v8.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "8d7acede2b2ae07605783d1c43e49b5767036474"
+                "reference": "bd4fed193a3132c91c5c93595cbfc78988915822"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/8d7acede2b2ae07605783d1c43e49b5767036474",
-                "reference": "8d7acede2b2ae07605783d1c43e49b5767036474",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/bd4fed193a3132c91c5c93595cbfc78988915822",
+                "reference": "bd4fed193a3132c91c5c93595cbfc78988915822",
                 "shasum": ""
             },
             "require": {
@@ -6818,7 +6821,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v8.1.5"
+                "source": "https://github.com/symfony/finder/tree/v8.1.8"
             },
             "funding": [
                 {
@@ -6838,7 +6841,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-21T12:16:08+00:00"
+            "time": "2026-09-26T06:33:49+00:00"
         },
         {
             "name": "symfony/options-resolver",
@@ -7240,16 +7243,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v8.1.6",
+            "version": "v8.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "d863f5e70d7c87abb906ac11b61f83036093000b"
+                "reference": "10823b09358e690df4ff943e24e8492bb1019fc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/d863f5e70d7c87abb906ac11b61f83036093000b",
-                "reference": "d863f5e70d7c87abb906ac11b61f83036093000b",
+                "url": "https://api.github.com/repos/symfony/process/zipball/10823b09358e690df4ff943e24e8492bb1019fc3",
+                "reference": "10823b09358e690df4ff943e24e8492bb1019fc3",
                 "shasum": ""
             },
             "require": {
@@ -7281,7 +7284,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v8.1.6"
+                "source": "https://github.com/symfony/process/tree/v8.1.7"
             },
             "funding": [
                 {
@@ -7301,7 +7304,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-21T17:47:34+00:00"
+            "time": "2026-09-02T12:40:29+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -7458,16 +7461,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v8.1.2",
+            "version": "v8.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "286a76b7255e5cc4bf0101a0bc5388ecf1c38ccc"
+                "reference": "d950140b5f56f31901e5b7a0c04ffc3a3deb943c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/286a76b7255e5cc4bf0101a0bc5388ecf1c38ccc",
-                "reference": "286a76b7255e5cc4bf0101a0bc5388ecf1c38ccc",
+                "url": "https://api.github.com/repos/symfony/string/zipball/d950140b5f56f31901e5b7a0c04ffc3a3deb943c",
+                "reference": "d950140b5f56f31901e5b7a0c04ffc3a3deb943c",
                 "shasum": ""
             },
             "require": {
@@ -7524,7 +7527,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v8.1.2"
+                "source": "https://github.com/symfony/string/tree/v8.1.7"
             },
             "funding": [
                 {
@@ -7544,7 +7547,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-28T07:35:25+00:00"
+            "time": "2026-09-11T14:51:16+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -7598,27 +7601,8 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
-    "stability-flags": {
-        "phpsoftbox/api": 20,
-        "phpsoftbox/application": 20,
-        "phpsoftbox/auth": 20,
-        "phpsoftbox/cache": 20,
-        "phpsoftbox/cli-app": 20,
-        "phpsoftbox/clock": 20,
-        "phpsoftbox/collection": 20,
-        "phpsoftbox/config": 20,
-        "phpsoftbox/container": 20,
-        "phpsoftbox/env": 20,
-        "phpsoftbox/http-emitter": 20,
-        "phpsoftbox/http-message": 20,
-        "phpsoftbox/mongo": 20,
-        "phpsoftbox/ozon": 20,
-        "phpsoftbox/request": 20,
-        "phpsoftbox/resource": 20,
-        "phpsoftbox/router": 20,
-        "phpsoftbox/validator": 20
-    },
+    "minimum-stability": "stable",
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

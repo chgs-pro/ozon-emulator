@@ -14,8 +14,8 @@ final readonly class ApplicationHttpClient implements ClientInterface
 {
     public function __construct(
         private Application
-    $application)
-    {
+    $application,
+    ) {
     }
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
