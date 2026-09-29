@@ -202,7 +202,7 @@ python3 local/ozon/tools/smoke-fbo.py
 [CHANGELOG.md](CHANGELOG.md). Чтобы поставить конкретную версию, а не текущую `master`:
 
 ```bash
-git clone --branch v1.0.0 https://github.com/chgs-pro/ozon-emulator.git local/ozon
+git clone --branch v1.1.0 https://github.com/chgs-pro/ozon-emulator.git local/ozon
 ```
 
 Обновление уже установленного эмулятора до новой версии:
