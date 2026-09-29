@@ -9,7 +9,9 @@ use App\Feature\Fbo\SellerApiException;
 
 use function array_column;
 use function array_diff;
+use function array_fill;
 use function array_filter;
+use function array_intersect;
 use function array_keys;
 use function array_map;
 use function array_merge;
@@ -36,7 +38,7 @@ use const ARRAY_FILTER_USE_KEY;
  */
 final readonly class FbsShipService
 {
-    public const array PATHS = ['/v4/posting/fbs/ship', '/v4/posting/fbs/ship/package'];
+    public const array PATHS = ['/v4/posting/fbs/ship', '/v4/posting/fbs/ship/package', '/v1/posting/fbs/split'];
 
     public const array WRITE_PATHS = self::PATHS;
 
@@ -56,6 +58,9 @@ final readonly class FbsShipService
         FbsExemplarService::posting($state, $number);
         $this->exemplars->settle($state, $number, $now);
         $posting = $state->data['fbs']['postings'][$number];
+        if ($path === '/v1/posting/fbs/split') {
+            return $this->splitPosting($state, $posting, $input['postings'] ?? [], $now);
+        }
         if ($posting['status'] !== 'awaiting_packaging' || array_filter($posting['available_actions'], static fn (string $a): bool => in_array($a, ['ship', 'ship_with_additional_info'], true)) === []) {
             throw new SellerApiException('Posting ' . $number . ' cannot be assembled in status ' . $posting['status'], 400, 3);
         }
@@ -88,7 +93,7 @@ final readonly class FbsShipService
         if ($this->failed($state, $posting['posting_number'], $now)) {
             return ['result' => [$posting['posting_number']]];
         }
-        $numbers = $this->split($state, $posting, $packages, true, $now);
+        $numbers = $this->split($state, $posting, $packages, array_fill(0, count($packages), true), true, $now);
 
         return ['result' => $numbers, ...(($input['with']['additional_data'] ?? false) === true ? ['additional_data' => array_map(fn (string $n): array => $this->additional($state, $n), $numbers)] : [])];
     }
@@ -116,7 +121,7 @@ final readonly class FbsShipService
             return ['result' => $posting['posting_number']];
         }
         if (array_map(static fn (array $units): int => $units['quantity'], $package) == $lines) {
-            return ['result' => $this->split($state, $posting, [$package], true, $now)[0]];
+            return ['result' => $this->split($state, $posting, [$package], [true], true, $now)[0]];
         }
         $rest = [];
         foreach ($lines as $sku => $quantity) {
@@ -126,9 +131,54 @@ final readonly class FbsShipService
             }
         }
         // The passed part becomes a new assembled posting; the original number keeps the rest unassembled.
-        [, $part] = $this->split($state, $posting, [$rest, $package], false, $now);
+        [, $part] = $this->split($state, $posting, [$rest, $package], [false, true], true, $now);
 
         return ['result' => $part];
+    }
+
+    /**
+     * `/v1/posting/fbs/split` divides an unassembled posting into new postings without assembling them. The emulator model
+     * (Ozon does not describe the numbers): the original posting becomes `cancelled_from_split_pending` and keeps its
+     * products for history; every part gets a new number of the order with `parent_posting_number`; the parts together
+     * hold exactly the products of the original. Exemplars follow the units in order, the stock stays reserved.
+     */
+    private function splitPosting(CabinetState $state, array $posting, array $postings, int $now): array
+    {
+        if ($posting['status'] !== 'awaiting_packaging') {
+            throw new SellerApiException('Posting ' . $posting['posting_number'] . ' cannot be split in status ' . $posting['status'], 400, 3);
+        }
+        $lines = array_column($posting['products'], 'quantity', 'sku');
+        $parts = [];
+        $total = [];
+        foreach ($postings as $part) {
+            $units = [];
+            foreach ($part['products'] ?? [] as $product) {
+                $sku      = (int) $product['product_id'];
+                $quantity = (int) $product['quantity'];
+                if (!isset($lines[$sku]) || $quantity < 1) {
+                    throw new SellerApiException(sprintf('Invalid product %d or quantity for posting %s', $sku, $posting['posting_number']), 400, 3);
+                }
+                $units[$sku] = ($units[$sku] ?? 0) + $quantity;
+                $total[$sku] = ($total[$sku] ?? 0) + $quantity;
+            }
+            if ($units === []) {
+                throw new SellerApiException('Every posting of the split needs products', 400, 3);
+            }
+            $parts[] = array_map(static fn (int $quantity): array => ['quantity' => $quantity, 'ids' => null], $units);
+        }
+        if (count($parts) < 2 || $total != $lines) {
+            throw new SellerApiException('Split into two or more postings with exactly the products of posting ' . $posting['posting_number'], 400, 3);
+        }
+        $numbers                     = $this->split($state, $posting, $parts, array_fill(0, count($parts), false), false, $now);
+        $parent                      = &$state->data['fbs']['postings'][$posting['posting_number']];
+        $parent['status']            = 'cancelled_from_split_pending';
+        $parent['substatus']         = 'posting_canceled';
+        $parent['available_actions'] = [];
+        unset($parent);
+        $products = static fn (array $record): array => array_map(static fn (array $line): array => ['product_id' => $line['sku'], 'quantity' => $line['quantity']], $record['products']);
+
+        return ['parent_posting' => ['posting_number' => $posting['posting_number'], 'products' => $products($posting)],
+            'postings'           => array_map(fn (string $n): array => ['posting_number' => $n, 'products' => $products($state->data['fbs']['postings'][$n])], $numbers)];
     }
 
     /** Units of the given SKUs must have the country and validated exemplars, like `ship_with_additional_info` requires. */
@@ -156,14 +206,15 @@ final readonly class FbsShipService
     }
 
     /**
-     * Distributes the posting into parts: the first part keeps the original number, the others get new numbers of the order.
-     * `$assembleFirst` — whether the first part is assembled too (`ship`) or stays unassembled (the rest of `ship/package`).
+     * Distributes the posting into parts. With `$keepNumber` the first part keeps the original number (`ship`, `ship/package`),
+     * otherwise every part gets a new number of the order (`split`); `$assembled` tells per part whether it is assembled.
      *
      * @param list<array<int, array{quantity: int, ids: ?list<int>}>> $parts
+     * @param list<bool> $assembled
      *
      * @return list<string> numbers of the parts in order
      */
-    private function split(CabinetState $state, array $posting, array $parts, bool $assembleFirst, int $now): array
+    private function split(CabinetState $state, array $posting, array $parts, array $assembled, bool $keepNumber, int $now): array
     {
         $number   = $posting['posting_number'];
         $lines    = array_column($posting['products'], null, 'sku');
@@ -192,17 +243,20 @@ final readonly class FbsShipService
                     $exemplars[$sku] = $taken;
                 }
             }
-            $assembled  = $i > 0 || $assembleFirst;
-            $partNumber = $i === 0 ? $number : sprintf('%s-%d', $posting['order_number'], ++$index);
+            $done       = $assembled[$i];
+            $original   = $i === 0 && $keepNumber;
+            $partNumber = $original ? $number : sprintf('%s-%d', $posting['order_number'], ++$index);
             $skus       = array_keys($part);
             $record     = [
-                'posting_number' => $partNumber, 'parent_posting_number' => $i === 0 ? ($posting['parent_posting_number'] ?? '') : $number,
-                'status'         => $assembled ? 'awaiting_deliver' : 'awaiting_packaging', 'substatus' => $assembled ? 'posting_not_in_carriage' : 'posting_created',
+                'posting_number' => $partNumber, 'parent_posting_number' => $original ? ($posting['parent_posting_number'] ?? '') : $number,
+                'status'         => $done ? 'awaiting_deliver' : 'awaiting_packaging', 'substatus' => $done ? 'posting_not_in_carriage' : 'posting_created',
+                'multibox'       => ($posting['multibox'] ?? false) && array_intersect($skus, $posting['multibox_skus'] ?? []) !== [],
+                'multibox_skus'  => array_values(array_intersect($posting['multibox_skus'] ?? [], $skus)),
                 'products'       => $products, 'exemplars' => $exemplars,
                 'requirements'   => array_map(static fn (array $list): array => array_values(array_filter($list, static fn (int $sku): bool => in_array($sku, $skus, true))), FbsRequirements::of($posting)),
                 'countries'      => array_filter($posting['countries'] ?? [], static fn (int $sku): bool => in_array($sku, $skus, true), ARRAY_FILTER_USE_KEY),
                 'multi_box_qty'  => $posting['multi_box_qty'] ?? 1,
-                ...($assembled ? ['shipped_at' => $now] : []),
+                ...($done ? ['shipped_at' => $now] : []),
             ] + $posting;
             unset($record['exemplar_check'], $record['marked_skus']);
             $record['available_actions']                 = FbsPostingGenerator::actions($record);

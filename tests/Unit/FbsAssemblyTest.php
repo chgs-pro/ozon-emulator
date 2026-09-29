@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Unit;
 
 use App\Feature\Fbo\CabinetState;
+use App\Feature\Fbo\Command\ControlCabinet\ControlCabinetHandler;
 use App\Feature\Fbo\LabelService;
 use App\Feature\Fbo\SellerApiException;
 use App\Feature\Fbs\FbsConfig;
@@ -18,8 +19,10 @@ use App\Tests\Support\FboTestCase;
 use PHPUnit\Framework\Attributes\{CoversClass, CoversMethod, Test};
 
 use function array_column;
+use function array_intersect;
 use function array_keys;
 use function array_map;
+use function array_values;
 use function dirname;
 use function explode;
 use function file_get_contents;
@@ -41,6 +44,7 @@ use const PHP_URL_QUERY;
 #[CoversMethod(FbsReadService::class, 'read')]
 #[CoversMethod(FbsPostingGenerator::class, 'actions')]
 #[CoversMethod(LabelService::class, 'download')]
+#[CoversMethod(ControlCabinetHandler::class, 'handle')]
 final class FbsAssemblyTest extends FboTestCase
 {
     private const string NUMBER = '10000001-0001-1';
@@ -178,6 +182,70 @@ final class FbsAssemblyTest extends FboTestCase
         self::assertSame($this->mark('P1'), $rest['product_exemplars']['products'][0]['exemplars'][0]['mandatory_mark']);
     }
 
+    /** Разделение без сборки: исходное отправление отменено из-за разделения, части — новые несобранные отправления.
+     * @see FbsShipService::handle()
+     */
+    #[Test]
+    public function splitsPostingWithoutAssembly(): void
+    {
+        $this->posting([910003 => 2, 910001 => 1]);
+        $this->setExemplars([910003 => [$this->mark('S1'), $this->mark('S2')], 910001 => [[]]]);
+        $this->clock->timestamp += 3;
+
+        $result = $this->call('/v1/posting/fbs/split', ['posting_number' => self::NUMBER, 'postings' => [
+            ['products' => [['product_id' => 910003, 'quantity' => 1]]],
+            ['products' => [['product_id' => 910003, 'quantity' => 1], ['product_id' => 910001, 'quantity' => 1]]],
+        ]]);
+
+        self::assertSame(self::NUMBER, $result['parent_posting']['posting_number']);
+        self::assertSame(['10000001-0001-2', '10000001-0001-3'], array_column($result['postings'], 'posting_number'));
+        self::assertSame([['product_id' => 910003, 'quantity' => 1], ['product_id' => 910001, 'quantity' => 1]], $result['postings'][1]['products']);
+        $parent = $this->get();
+        self::assertSame(['cancelled_from_split_pending', []], [$parent['status'], $parent['available_actions']]);
+        $first  = $this->get('10000001-0001-2', ['product_exemplars' => true]);
+        $second = $this->get('10000001-0001-3', ['product_exemplars' => true]);
+        self::assertSame(['awaiting_packaging', self::NUMBER], [$first['status'], $first['parent_posting_number']]);
+        self::assertSame($this->mark('S1'), $first['product_exemplars']['products'][0]['exemplars'][0]['mandatory_mark']);
+        self::assertSame($this->mark('S2'), $second['product_exemplars']['products'][0]['exemplars'][0]['mandatory_mark']);
+        $unfulfilled = array_column($this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 100])['postings'], 'posting_number');
+        self::assertNotContains(self::NUMBER, $unfulfilled);
+        self::assertContains('10000001-0001-3', $unfulfilled);
+    }
+
+    /** Разделение требует двух и более непустых частей ровно из товаров отправления.
+     * @see FbsShipService::handle()
+     */
+    #[Test]
+    public function rejectsIncompleteSplit(): void
+    {
+        $this->posting([910001 => 2]);
+        $this->expectFailure(400, fn (): array => $this->call('/v1/posting/fbs/split', ['posting_number' => self::NUMBER, 'postings' => [['products' => [['product_id' => 910001, 'quantity' => 2]]]]]));
+        $this->expectFailure(400, fn (): array => $this->call('/v1/posting/fbs/split', ['posting_number' => self::NUMBER, 'postings' => [
+            ['products' => [['product_id' => 910001, 'quantity' => 1]]], ['products' => [['product_id' => 910001, 'quantity' => 2]]],
+        ]]));
+        self::assertSame('awaiting_packaging', $this->get()['status']);
+    }
+
+    /** Многокоробочный товар: признак до сборки, количество коробок — в наборе экземпляров, после сборки признак снят.
+     * @see FbsShipService::handle()
+     * @see FbsExemplarService::handle()
+     */
+    #[Test]
+    public function keepsBoxCountOfMultiboxPosting(): void
+    {
+        $this->configuration['fbs']['multiboxSkus'] = [910001];
+        $this->configure();
+        $this->posting([910001 => 1]);
+        self::assertSame([true, 1], [$this->get()['is_multibox'], $this->get()['multi_box_qty']]);
+
+        $known = $this->call('/v6/fbs/posting/product/exemplar/create-or-get', ['posting_number' => self::NUMBER])['products'][0]['exemplars'][0]['exemplar_id'];
+        $this->call('/v6/fbs/posting/product/exemplar/set', ['posting_number' => self::NUMBER, 'multi_box_qty' => 3, 'products' => [['product_id' => 910001, 'exemplars' => [['exemplar_id' => $known]]]]]);
+        $this->clock->timestamp += 3;
+        $this->ship([910001 => 1]);
+
+        self::assertSame([false, 3, 'awaiting_deliver'], [$this->get()['is_multibox'], $this->get()['multi_box_qty'], $this->get()['status']]);
+    }
+
     /** `ship_failed` сценария: запрос принят, отправление не собрано и видно в get; повтор собирает.
      * @see FbsShipService::handle()
      */
@@ -215,6 +283,34 @@ final class FbsAssemblyTest extends FboTestCase
         self::assertSame([[$this->mark('U2')]], array_column($this->get()['products'], 'mandatory_mark'));
     }
 
+    /** Текущие методы этикеток: v3 create по `posting_numbers` без обёртки `result`, v2 get — `status.code`, `file_url`,
+     * `error{code, message}` и `status.unprinted_postings[].message`.
+     * @see FbsLabelService::handle()
+     */
+    #[Test]
+    public function generatesLabelsThroughTheCurrentMethods(): void
+    {
+        $this->posting([910001 => 1]);
+        $this->posting([910001 => 1], '10000002-0001-1');
+        $this->ship([910001 => 1]);
+        $tasks = $this->call('/v3/posting/fbs/package-label/create', ['posting_numbers' => [self::NUMBER, '10000002-0001-1']])['tasks'];
+
+        self::assertSame(['big_label', 'small_label'], array_column($tasks, 'task_type'));
+        self::assertSame('pending', $this->call('/v2/posting/fbs/package-label/get', ['task_id' => $tasks[0]['task_id']])['status']['code']);
+        $this->clock->timestamp += 3;
+        $label = $this->call('/v2/posting/fbs/package-label/get', ['task_id' => $tasks[0]['task_id']]);
+        self::assertSame(['completed', 2, 1], [$label['status']['code'], $label['status']['postings_count'], $label['status']['printed_postings_count']]);
+        self::assertSame([['posting_number' => '10000002-0001-1', 'message' => 'The next postings aren\'t ready']], $label['status']['unprinted_postings']);
+        self::assertSame('', $label['error']['code']);
+        self::assertStringContainsString('/documents/label?', $label['file_url']);
+
+        $this->control(['type' => 'fbsScenario', 'labelFailures' => 1]);
+        $failed = $this->call('/v3/posting/fbs/package-label/create', ['posting_numbers' => [self::NUMBER]])['tasks'][0]['task_id'];
+        $this->clock->timestamp += 3;
+        $error = $this->call('/v2/posting/fbs/package-label/get', ['task_id' => $failed]);
+        self::assertSame(['error', 'LABEL_GENERATION_FAILED', ''], [$error['status']['code'], $error['error']['code'], $error['file_url']]);
+    }
+
     /** Задачи этикеток: pending → completed с файлом; несобранное отправление — в unprinted; повторный get отдаёт тот же файл.
      * @see FbsLabelService::handle()
      * @see LabelService::download()
@@ -241,6 +337,41 @@ final class FbsAssemblyTest extends FboTestCase
         $failed = $this->call('/v2/posting/fbs/package-label/create', ['posting_number' => [self::NUMBER]])['result']['tasks'][0]['task_id'];
         $this->clock->timestamp += 3;
         self::assertSame(['error', 'LABEL_GENERATION_FAILED', ''], array_map(fn (string $key): string => $this->call('/v1/posting/fbs/package-label/get', ['task_id' => $failed])['result'][$key], ['status', 'error', 'file_url']));
+    }
+
+    /** Ограничения пункта приёма по отправлению: вес, габариты и стоимость; неизвестное отправление — 404.
+     * @see FbsReadService::read()
+     */
+    #[Test]
+    public function returnsTheLimitsOfTheDropOffPoint(): void
+    {
+        $this->posting([910001 => 1]);
+
+        $limits = $this->call('/v1/posting/fbs/restrictions', ['posting_number' => self::NUMBER])['result'];
+
+        self::assertSame([self::NUMBER, 25000.0, 300000.0], [$limits['posting_number'], $limits['max_posting_weight'], $limits['max_posting_price']]);
+        $this->expectFailure(404, fn (): array => $this->call('/v1/posting/fbs/restrictions', ['posting_number' => '99999999-0001-1']));
+    }
+
+    /** Продавец меняет КИЗ экземпляра собранного отправления в кабинете: Ozon хранит новый КИЗ; до сборки так нельзя.
+     * @see ControlCabinetHandler::handle()
+     */
+    #[Test]
+    public function changesMarkOfAssembledPostingByControlEvent(): void
+    {
+        $this->posting([910003 => 1]);
+        $this->setExemplars([910003 => [$this->mark('C1')]]);
+        $exemplarId = $this->call('/v6/fbs/posting/product/exemplar/create-or-get', ['posting_number' => self::NUMBER])['products'][0]['exemplars'][0]['exemplar_id'];
+        $this->expectFailure(409, fn (): array => $this->control(['type' => 'fbsMarkChange', 'postingNumber' => self::NUMBER, 'exemplarId' => $exemplarId, 'mark' => $this->mark('C2')]));
+        $this->clock->timestamp += 3;
+        $this->ship([910003 => 1]);
+
+        $this->control(['type' => 'fbsMarkChange', 'postingNumber' => self::NUMBER, 'exemplarId' => $exemplarId, 'mark' => $this->mark('C2')]);
+
+        $posting = $this->get(self::NUMBER, ['product_exemplars' => true]);
+        self::assertSame($this->mark('C2'), $posting['product_exemplars']['products'][0]['exemplars'][0]['mandatory_mark']);
+        self::assertSame([[$this->mark('C2')]], array_column($posting['products'], 'mandatory_mark'));
+        $this->expectFailure(404, fn (): array => $this->control(['type' => 'fbsMarkChange', 'postingNumber' => self::NUMBER, 'exemplarId' => 1, 'mark' => $this->mark('C3')]));
     }
 
     /** Изменение требований управляющим событием меняет requirements и действия несобранного отправления.
@@ -276,6 +407,8 @@ final class FbsAssemblyTest extends FboTestCase
                 'shipment_date'  => $this->clock->timestamp + 86400, 'products' => $products,
                 'requirements'   => FbsRequirements::fromConfig(FbsConfig::of($state), array_keys($lines)),
             ];
+            $posting['multibox_skus']                = array_values(array_intersect(array_keys($lines), FbsConfig::of($state)['multiboxSkus'] ?? []));
+            $posting['multibox']                     = $posting['multibox_skus'] !== [];
             $posting['available_actions']            = FbsPostingGenerator::actions($posting);
             $state->data['fbs']['postings'][$number] = $posting;
         });

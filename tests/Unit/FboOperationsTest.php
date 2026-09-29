@@ -232,6 +232,37 @@ final class FboOperationsTest extends FboTestCase
         self::assertSame('FAILED', $this->complete('/v1/supply-order/act/accept', ['act_id' => $products['supply_acts'][1]['act_id']])['status']);
     }
 
+    /** An overdue order explains itself per supply in details only and closes changes.
+     * @see ControlCabinetHandler::handle()
+     */
+    #[Test]
+    public function exposesOverdueReasonInDetails(): void
+    {
+        $order = $this->createOrder();
+        $this->control(['type' => 'state', 'orderId' => $order['order_id'], 'state' => 'OVERDUE', 'overdueReason' => 'ORDER_TIMESLOT_EXPIRED']);
+        $details = $this->call('/v1/supply-order/details', ['order_id' => $order['order_id']]);
+        self::assertSame('OVERDUE', $details['state']);
+        self::assertSame('ORDER_TIMESLOT_EXPIRED', $details['supplies'][0]['overdue_reason']);
+        self::assertFalse($details['timeslot']['can_set']);
+        self::assertArrayNotHasKey('overdue_reason', $this->call('/v3/supply-order/get', ['order_ids' => [$order['order_id']]])['orders'][0]['supplies'][0]);
+    }
+
+    /** A virtual distribution centre order reports its tag and forbids slot, cancellation and content changes in details.
+     * @see ControlCabinetHandler::handle()
+     */
+    #[Test]
+    public function reportsVirtualOrderRestrictions(): void
+    {
+        $order = $this->createOrder();
+        $this->control(['type' => 'orderTags', 'orderId' => $order['order_id'], 'isVirtual' => true]);
+        $details = $this->call('/v1/supply-order/details', ['order_id' => $order['order_id']]);
+        self::assertTrue($details['order_tags']['is_virtual']);
+        self::assertNotEmpty($details['data_filling_deadline_utc']);
+        self::assertSame(['ORDER_IS_VIRTUAL'], $details['timeslot']['can_not_set_reasons']);
+        self::assertSame(['SUPPLY_IS_VIRTUAL'], $details['supplies'][0]['cancellation_allowability']['can_not_set_reasons']);
+        self::assertSame(['SUPPLY_IS_VIRTUAL'], $details['supplies'][0]['content']['can_not_set_reasons']);
+    }
+
     /** Unknown states remain visible and deny writes; beta methods can be disabled.
      * @see ControlCabinetHandler::handle()
      */

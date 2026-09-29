@@ -84,7 +84,14 @@ final readonly class FboReadService
         if ($path === '/v3/supply-order/get') {
             $orders = [];
             foreach ($input['order_ids'] as $id) {
-                $orders[] = $state->data['orders'][(string) $id] ?? throw new SellerApiException('Order not found', 404, 5);
+                $order = $state->data['orders'][(string) $id] ?? throw new SellerApiException('Order not found', 404, 5);
+                // The overdue reason belongs to /v1/supply-order/details only.
+                $order['supplies'] = array_map(static function (array $supply): array {
+                    unset($supply['overdue_reason']);
+
+                    return $supply;
+                }, $order['supplies']);
+                $orders[] = $order;
             }
 
             return ['orders' => $orders];
@@ -94,13 +101,14 @@ final readonly class FboReadService
             $order['dropoff_warehouse_id'] = $order['dropoff_warehouse']['warehouse_id'];
             unset($order['dropoff_warehouse']);
             $editable          = in_array($order['state'], ['DATA_FILLING', 'READY_TO_SUPPLY'], true) && strtotime($order['data_filling_deadline_utc'] ?? '9999-01-01') > $now;
-            $order['timeslot'] = ['can_set' => $editable, 'can_not_set_reasons' => $editable ? [] : ['INVALID_ORDER_STATE'], 'value' => $order['timeslot']];
+            $virtual           = ($order['order_tags']['is_virtual'] ?? false) === true;
+            $order['timeslot'] = ['can_set' => $editable && !$virtual, 'can_not_set_reasons' => !$editable ? ['INVALID_ORDER_STATE'] : ($virtual ? ['ORDER_IS_VIRTUAL'] : []), 'value' => $order['timeslot']];
             $order['vehicle']  = ['can_set' => $editable, 'can_not_set_reasons' => $editable ? [] : ['INVALID_ORDER_STATE'], 'value' => $state->data['vehicles'][$order['order_id']] ?? []];
-            $order['supplies'] = array_map(static function (array $s) use ($editable, $state): array {
+            $order['supplies'] = array_map(static function (array $s) use ($editable, $state, $virtual): array {
                 $s['supply_state']              = $s['state'];
                 $utd                            = $state->data['requirements'][$s['supply_id']]['utdUploaded'] ?? false;
-                $s['content']                   = ['bundle_id' => $s['bundle_id'], 'can_set' => $editable && !$utd, 'can_not_set_reasons' => !$editable ? ['INCORRECT_SUPPLY_STATE'] : ($utd ? ['UTD_IS_UPLOADED'] : [])];
-                $s['cancellation_allowability'] = ['can_set' => $editable && !$utd, 'can_not_set_reasons' => !$editable ? ['INVALID_SUPPLY_STATE'] : ($utd ? ['SUPPLY_HAS_ACTIVE_UTD'] : [])];
+                $s['content']                   = ['bundle_id' => $s['bundle_id'], 'can_set' => $editable && !$utd && !$virtual, 'can_not_set_reasons' => !$editable ? ['INCORRECT_SUPPLY_STATE'] : ($utd ? ['UTD_IS_UPLOADED'] : ($virtual ? ['SUPPLY_IS_VIRTUAL'] : []))];
+                $s['cancellation_allowability'] = ['can_set' => $editable && !$utd && !$virtual, 'can_not_set_reasons' => !$editable ? ['INVALID_SUPPLY_STATE'] : ($utd ? ['SUPPLY_HAS_ACTIVE_UTD'] : ($virtual ? ['SUPPLY_IS_VIRTUAL'] : []))];
                 $s['ettn_info']                 = ['is_required' => $s['supply_tags']['is_ettn_required'], 'is_uploaded' => $state->data['requirements'][$s['supply_id']]['ettnUploaded'] ?? false, 'contains_valid' => $state->data['requirements'][$s['supply_id']]['ettnUploaded'] ?? false];
                 unset($s['state'], $s['bundle_id']);
 

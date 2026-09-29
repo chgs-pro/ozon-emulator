@@ -24,7 +24,14 @@ def schema(operation, kind):
         return body or {'type': 'object'}
     # Methods like exemplar set/update document 200 without a body schema: Ozon answers with an empty object.
     content = operation['responses']['200'].get('content')
-    return content['application/json']['schema'] if content else {'type': 'object'}
+    if not content:
+        return {'type': 'object'}
+    # A file method (act/get-pdf) describes its file as an object of the only non-JSON content type.
+    return content['application/json']['schema'] if 'application/json' in content else next(iter(content.values()))['schema']
+
+def content_type(operation):
+    content = operation['responses']['200'].get('content') or {}
+    return None if not content or 'application/json' in content else next(iter(content))
 
 result = {'sourceCommit': commit, 'sourceSha256': hashlib.sha256(raw).hexdigest(), 'paths': {}, 'components': {'schemas': {}},
           'fixtureVersion': 1, 'verifiedAt': date.today().isoformat()}
@@ -32,6 +39,8 @@ pending = []
 for path in paths:
     operation = spec['paths'][path]['post']
     result['paths'][path] = {'request': schema(operation, 'request'), 'response': schema(operation, 'response')}
+    if content_type(operation):
+        result['paths'][path]['responseContentType'] = content_type(operation)
     pending += [result['paths'][path]['request'], result['paths'][path]['response']]
 
 def refs(node):

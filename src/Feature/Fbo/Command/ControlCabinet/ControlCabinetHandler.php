@@ -11,6 +11,7 @@ use App\Feature\Fbo\CargoService;
 use App\Feature\Fbo\ReadinessService;
 use App\Feature\Fbo\SellerApiException;
 use App\Feature\Fbo\SupplyContext;
+use App\Feature\Fbs\FbsCarriageService;
 use App\Feature\Fbs\FbsConfig;
 use App\Feature\Fbs\FbsPostingGenerator;
 use App\Feature\Fbs\FbsRequirements;
@@ -19,9 +20,11 @@ use Psr\Clock\ClockInterface;
 
 use function array_column;
 use function array_diff;
+use function array_filter;
 use function array_flip;
 use function array_intersect_key;
 use function array_search;
+use function array_values;
 use function gmdate;
 use function hash;
 use function json_encode;
@@ -39,6 +42,7 @@ final readonly class ControlCabinetHandler
         private CargoService $cargo,
         private ClockInterface $clock,
         private ReadinessService $readiness,
+        private FbsCarriageService $carriages,
     ) {
     }
     public function handle(ControlCabinetCommand $command): array
@@ -83,6 +87,12 @@ final readonly class ControlCabinetHandler
                 case 'acceptance':
                     $this->acts->receive($state, $event['supplyId'], $event['items'], $now);
                     break;
+                case 'orderTags':
+                    // A virtual distribution centre order: details report it and forbid slot, cancellation and content changes.
+                    $this->context->order($state, $event['orderId']);
+                    $state->data['orders'][$event['orderId']]['order_tags'] = ['is_virtual' => $event['isVirtual']];
+                    $this->context->touch($state, $event['orderId'], $now);
+                    break;
                 case 'requirements':
                     [$orderId] = $this->context->locate($state, $event['supplyId']);
                     $this->context->editable($this->context->order($state, (int) $orderId));
@@ -91,20 +101,55 @@ final readonly class ControlCabinetHandler
                     break;
                 case 'fbsScenario':
                     FbsConfig::of($state);
-                    $state->data['fbs']['scenario'] = array_intersect_key($event, array_flip(['shipFailures', 'labelFailures', 'rejectedMarks'])) + ($state->data['fbs']['scenario'] ?? []);
+                    $state->data['fbs']['scenario'] = array_intersect_key($event, array_flip(['shipFailures', 'labelFailures', 'rejectedMarks', 'carriagePassRequired'])) + ($state->data['fbs']['scenario'] ?? []);
                     break;
                 case 'fbsRequirements':
                     $this->fbsRequirements($state, $event['postingNumber'], $event['requirements']);
+                    break;
+                case 'fbsMarkChange':
+                    $this->fbsMarkChange($state, $event['postingNumber'], $event['exemplarId'], $event['mark'], $now);
+                    break;
+                case 'fbsHandover':
+                    FbsConfig::of($state);
+                    $this->carriages->handover($state, $event['carriageId'], $event['missingPostings'] ?? [], $now);
                     break;
                 case 'reset':
                     $state->data = new CabinetState(['config' => $state->data['config'], 'config_version' => $state->data['config_version'], 'config_history' => $state->data['config_history'] ?? [], 'sequence' => $state->data['sequence']])->data;
                     break;
             }
             $state->data['control_events'][$event['eventId']] = $fingerprint;
-            $state->event('control.' . $event['type'], $now, array_intersect_key($event, array_flip(['eventId', 'orderId', 'supplyId', 'state', 'operationId', 'postingNumber'])));
+            $state->event('control.' . $event['type'], $now, array_intersect_key($event, array_flip(['eventId', 'orderId', 'supplyId', 'state', 'operationId', 'postingNumber', 'carriageId'])));
 
             return ['event_id' => $event['eventId'], 'replayed' => false];
         });
+    }
+
+    /**
+     * The seller changes the KIZ of an exemplar of an assembled posting in the cabinet, outside the Seller API of the
+     * warehouse: the posting then holds another mandatory mark than the one the warehouse sent.
+     */
+    private function fbsMarkChange(CabinetState $state, string $number, int $exemplarId, string $mark, int $now): void
+    {
+        FbsConfig::of($state);
+        $posting = $state->data['fbs']['postings'][$number] ?? throw new SellerApiException('Posting not found', 404, 5);
+        if ($posting['status'] !== 'awaiting_deliver') {
+            throw new SellerApiException('A mark changes only in an assembled posting before delivery', 409, 10);
+        }
+        foreach ($posting['exemplars'] ?? [] as $sku => $exemplars) {
+            foreach ($exemplars as $index => $exemplar) {
+                if ((int) $exemplar['exemplar_id'] !== $exemplarId) {
+                    continue;
+                }
+                $marks                                       = array_values(array_filter($exemplar['marks'] ?? [], static fn (array $m): bool => $m['mark_type'] !== 'mandatory_mark'));
+                $posting['exemplars'][$sku][$index]['marks'] = [...$marks, ['mark' => $mark, 'mark_type' => 'mandatory_mark']];
+                $state->data['fbs']['postings'][$number]     = $posting;
+                $state->event('fbs.posting.mark_changed', $now, ['posting_number' => $number, 'exemplar_id' => $exemplarId]);
+
+                return;
+            }
+        }
+
+        throw new SellerApiException('Exemplar ' . $exemplarId . ' is not in posting ' . $number, 404, 5);
     }
 
     /** Changes requirements of an unassembled posting, like Ozon may change them after the posting appears; only its SKUs. */
@@ -145,6 +190,10 @@ final readonly class ControlCabinetHandler
         $order['state'] = $next;
         foreach ($order['supplies'] as &$supply) {
             $supply['state'] = $next;
+            if ($next === 'OVERDUE') {
+                // Ozon explains the overdue per supply in /v1/supply-order/details; the reasons enum is not documented.
+                $supply['overdue_reason'] = $event['overdueReason'] ?? 'UNSPECIFIED';
+            }
             if ($newRank !== false && $newRank >= 2 && isset($state->data['cargo'][$supply['supply_id']])) {
                 $state->data['cargo'][$supply['supply_id']]['tracking_status'] = $newRank >= 5 ? 'PROCESSED' : ($newRank >= 4 ? 'ACCEPTING' : 'ON_WAREHOUSE');
                 $state->data['cargo'][$supply['supply_id']]['arrival_at']      = gmdate(DATE_ATOM, $now);

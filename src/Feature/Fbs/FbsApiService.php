@@ -8,18 +8,18 @@ use App\Feature\Fbo\CabinetState;
 
 use function in_array;
 
-/** Entry point of the FBS Seller API methods: warehouses, postings, stocks, assembly and labels of an FBS-enabled cabinet. */
+/** Entry point of the FBS Seller API methods: warehouses, postings, stocks, assembly, labels and carriages of an FBS-enabled cabinet. */
 final readonly class FbsApiService
 {
     public const array PATHS = [
         ...FbsReadService::PATHS, ...FbsWarehouseService::PATHS, ...FbsStockService::PATHS, ...FbsCancellationService::PATHS,
-        ...FbsExemplarService::PATHS, ...FbsShipService::PATHS, ...FbsLabelService::PATHS,
+        ...FbsExemplarService::PATHS, ...FbsShipService::PATHS, ...FbsLabelService::PATHS, ...FbsCarriageService::PATHS,
     ];
 
     /** FBS methods that change the cabinet; they also need `writeEnabled`. */
     public const array WRITE_PATHS = [
         '/v1/warehouse/fbs/create', '/v2/products/stocks', ...FbsCancellationService::WRITE_PATHS, ...FbsExemplarService::WRITE_PATHS,
-        ...FbsShipService::WRITE_PATHS, ...FbsLabelService::WRITE_PATHS,
+        ...FbsShipService::WRITE_PATHS, ...FbsLabelService::WRITE_PATHS, ...FbsCarriageService::WRITE_PATHS,
     ];
 
     public function __construct(
@@ -30,6 +30,7 @@ final readonly class FbsApiService
         private FbsExemplarService $exemplars,
         private FbsShipService $ships,
         private FbsLabelService $labels,
+        private FbsCarriageService $carriages,
     ) {
     }
 
@@ -50,6 +51,7 @@ final readonly class FbsApiService
             $this->exemplars->supports($path)     => $this->exemplars->handle($state, $path, $input, $now),
             $this->ships->supports($path)         => $this->ships->handle($state, $path, $input, $now),
             $this->labels->supports($path)        => $this->labels->handle($state, $clientId, $path, $input, $now),
+            $this->carriages->supports($path)     => $this->carriages->handle($state, $path, $input, $now),
             default                               => $this->stocks->handle($state, $path, $input, $now),
         };
     }
