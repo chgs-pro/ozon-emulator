@@ -48,6 +48,12 @@ final readonly class Contract
         return array_keys($this->data['paths']);
     }
 
+    /** Content type of a method that answers with a file (the SDK describes the file as an object); `null` for JSON. */
+    public function fileContentType(string $path): ?string
+    {
+        return $this->data['paths'][$path]['responseContentType'] ?? null;
+    }
+
     public function validate(string $path, array $payload, string $direction = 'request'): void
     {
         $schema = $this->data['paths'][$path][$direction] ?? throw new SellerApiException('Method not implemented', 404, 5);

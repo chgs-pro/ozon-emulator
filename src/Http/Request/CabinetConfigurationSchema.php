@@ -157,7 +157,7 @@ final class CabinetConfigurationSchema extends AbstractInputSchema
                 }
                 $warehouseIds[] = $w['id'];
             }
-            foreach (['productSkus', ...array_values(FbsRequirements::CONFIG_KEYS)] as $key) {
+            foreach (['productSkus', 'multiboxSkus', ...array_values(FbsRequirements::CONFIG_KEYS)] as $key) {
                 $this->require(is_array($fbs[$key] ?? []) && array_is_list($fbs[$key] ?? []), 'fbs.' . $key . ' must be a list');
                 foreach ($fbs[$key] ?? [] as $sku) {
                     $this->require(in_array($sku, $ids['products'], true), 'Unknown fbs.' . $key . ' SKU');

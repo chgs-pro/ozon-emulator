@@ -7,6 +7,27 @@
 - **минорная** (1.1.0) — новые методы Seller API и возможности, прежние сценарии работают как раньше;
 - **патч** (1.0.1) — исправления ошибок и документации.
 
+## [Unreleased]
+
+- FBS: `/v1/posting/fbs/split` — разделение несобранного отправления на части без сборки (исходное —
+  `cancelled_from_split_pending`); многокоробочные товары `fbs.multiboxSkus`: `is_multibox` до сборки, количество
+  коробок через `multi_box_qty` набора экземпляров.
+- FBO: управляющее событие `orderTags` (`isVirtual`) — заявка через вРЦ в `/v1/supply-order/details` с запретами
+  `ORDER_IS_VIRTUAL` / `SUPPLY_IS_VIRTUAL`.
+- FBO: причина просрочки `overdueReason` в управляющем событии `state` для `OVERDUE`; `overdue_reason` поставок в
+  `/v1/supply-order/details` (в `/v3/supply-order/get` его нет, как в контракте).
+- FBS: отгрузки (`carriage`) — список методов доставки на дату, создание, изменение состава, подтверждение, отмена;
+  статус, состав и штрихкод документов отгрузки. Передача водителю — управляющее событие `fbsHandover`: принятые
+  отправления переходят в `delivering`. PDF листа отгрузки — `/v2/posting/fbs/act/get-pdf` отвечает файлом.
+  Проверка по описанию Seller API — 97 методов.
+- FBS: отправления в `delivering` больше не попадают в список несобранных (`/v4/posting/fbs/unfulfilled/list`).
+- FBS: этикетки по текущим методам `/v3/posting/fbs/package-label/create` и `/v2/posting/fbs/package-label/get`;
+  прежние v2 create и v1 get работают до отключения 2.11.2026. SDK `phpsoftbox/ozon` обновлён до `3d28e1d`, профиль
+  `contracts/fbs.json` пересобран (42 метода).
+- FBS: ограничения пункта приёма `/v1/posting/fbs/restrictions`; пропуск отгрузки `/v1/carriage/pass/create` и
+  сценарий `carriagePassRequired` (`set_arrival_passes`, `arrival_pass_ids`). Профиль `contracts/fbs.json` — 44 метода.
+- FBS: управляющее событие `fbsMarkChange` меняет КИЗ экземпляра собранного отправления, как правка в кабинете продавца.
+
 ## [1.0.0] — 2026-09-25
 
 Первая публичная версия.

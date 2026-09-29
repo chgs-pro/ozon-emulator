@@ -1,4 +1,4 @@
-# FBS: склады, остатки, отправления, сборка и этикетки
+# FBS: склады, остатки, отправления, сборка, этикетки и отгрузки
 
 FBS — схема, при которой товар хранится на складе продавца, а Ozon присылает заказы (отправления), которые
 продавец собирает и передаёт в доставку. Эмулятор умеет:
@@ -9,9 +9,10 @@ FBS — схема, при которой товар хранится на ск�
 - **отмену** — целиком и по товарам, с причинами;
 - **требования и экземпляры** — маркировка «Честный ЗНАК», страна изготовления, ГТД, РНПТ, вес, IMEI, УИН;
 - **сборку** — целиком, с разделением на упаковки и частично;
-- **этикетки** отправлений — асинхронные задачи и PDF.
+- **этикетки** отправлений — асинхронные задачи и PDF;
+- **отгрузки** (`carriage`) — создание, состав, подтверждение, статус документов и передача водителю.
 
-Передачи отправлений в доставку (отгрузки, `carriage`) и документов к ней пока нет.
+Документы отгрузки — синтетический PDF листа отгрузки (`/v2/posting/fbs/act/get-pdf`).
 
 ## Включение
 
@@ -52,6 +53,7 @@ FBS включается разделом `fbs` конфигурации каб�
 | `weightSkus` | Нужен фактический вес каждой единицы |
 | `imeiSkus` | Нужен IMEI |
 | `jwUinSkus` | Нужен УИН ювелирного изделия |
+| `multiboxSkus` | Многокоробочный товар: до сборки у отправления `is_multibox: true`, количество коробок передаётся в `multi_box_qty` набора экземпляров |
 
 Требования попадают в отправление при его создании (`requirements` и `optional` в ответах) и потом меняются только
 управляющим событием. Если у отправления есть хоть одно требование, кроме необязательной маркировки, в его действиях
@@ -179,7 +181,7 @@ docker compose exec php-cli php psb ozon:fbs:generate 1001 --batch=20 --total=20
 /v6/fbs/posting/product/exemplar/set           → данные всех экземпляров (полный набор)
 /v5/fbs/posting/product/exemplar/status        → validation_in_process … ship_available | ship_not_available
 /v4/posting/fbs/ship                           → отправление собрано; результат проверяется через /v3/posting/fbs/get
-/v2/posting/fbs/package-label/create → /v1/posting/fbs/package-label/get → PDF этикеток
+/v3/posting/fbs/package-label/create → /v2/posting/fbs/package-label/get → PDF этикеток
 ```
 
 Отправление без требований можно собрать сразу.
@@ -246,15 +248,28 @@ docker compose exec php-cli php psb ozon:fbs:generate 1001 --batch=20 --total=20
 - **`/v4/posting/fbs/ship/package`** собирает часть: переданные товары (с `exemplarsIds` — именно эти экземпляры)
   становятся новым собранным отправлением, остальное остаётся несобранным под исходным номером. Если передать всё,
   собирается само отправление. Описание Ozon здесь неоднозначно, эмулятор выбрал простую модель.
+- **`/v1/posting/fbs/split`** делит несобранное отправление на две и более части без сборки. Части вместе должны
+  содержать ровно товары отправления. Модель эмулятора (номера частей Ozon не описывает): исходное отправление
+  становится `cancelled_from_split_pending` и хранит исходный состав, каждая часть получает новый номер заказа
+  с `parent_posting_number` и остаётся `awaiting_packaging`; экземпляры раздаются частям по порядку, резерв сохраняется.
+- **Многокоробочный товар** (`multiboxSkus`): пока отправление не собрано, `is_multibox: true`; количество коробок
+  передаётся в `multi_box_qty` запроса `/v6/fbs/posting/product/exemplar/set` и остаётся в `multi_box_qty` после
+  сборки, где `is_multibox` уже `false`. Сборку без количества коробок эмулятор, как и Ozon, не запрещает — товар
+  считается упакованным в одну коробку.
 
 Собранное отправление получает статус `awaiting_deliver` и подстатус `posting_not_in_carriage`, действия
 `label_download_big`, `label_download_small` и, если есть маркировка, `update_cis`. Товар остаётся в резерве.
 
 ## Этикетки
 
-`/v2/posting/fbs/package-label/create` создаёт две задачи — большую (`big_label`) и маленькую (`small_label`)
-этикетку. `/v1/posting/fbs/package-label/get` показывает ход задачи: первую половину `operationDelaySeconds` —
-`pending`, затем `in_progress`, потом `completed` со ссылкой `file_url` или `error`.
+`/v3/posting/fbs/package-label/create` (`posting_numbers`, ответ `tasks` без `result`) создаёт две задачи — большую
+(`big_label`) и маленькую (`small_label`) этикетку. `/v2/posting/fbs/package-label/get` показывает ход задачи в
+`status.code`: первую половину `operationDelaySeconds` — `pending`, затем `in_progress`, потом `completed` со ссылкой
+`file_url` или `error` с `error.code`; непринятые отправления — в `status.unprinted_postings[].message`. Значения
+`status.code` документация Ozon не перечисляет — эмулятор берёт их из v1.
+
+Устаревшие `/v2/posting/fbs/package-label/create` (`posting_number`) и `/v1/posting/fbs/package-label/get` (ответ в
+`result`) работают до их отключения в Ozon 2.11.2026.
 
 Результат фиксируется при первом запросе после готовности: печатаются собранные отправления, остальные попадают в
 `unprinted_postings` с причиной — «The next postings aren't ready» или «Posting is cancelled». Если печатать нечего —
@@ -264,6 +279,37 @@ PDF синтетический и помечен как тестовый: стр
 58 × 40 мм, штрихкод Code 128. Штрихкоды выбраны эмулятором: нижний — цифры номера отправления, верхний — `%101%`
 и нижний. Ссылка действует сутки и перестаёт работать (410), если отправление из файла отменено.
 
+## Отгрузки
+
+Отгрузка (`carriage`) объединяет собранные отправления одного метода доставки на одну дату отгрузки. Дата отгрузки
+отправления — дата его `shipment_date`.
+
+1. `/v2/carriage/delivery/list` показывает методы доставки на дату (`filter.departure_date`, по умолчанию сегодня
+   по часам кабинета). Фильтр `filter.delivery_method_id` принимает ID метода доставки или ID склада. Для метода видны
+   количество ожидаемых и собранных отправлений, отгрузки и ошибки: `NOT_ALL_POSTINGS_PACKAGED`, если собраны не все.
+   Пока собранные отправления ждут вне отгрузки, в `carriages` есть строка с `id: 0` и действием `create`.
+2. `/v1/carriage/create` создаёт отгрузку в статусе `new` из всех собранных отправлений метода и даты, которые не
+   входят в другую отгрузку. Вторую действующую отгрузку на тот же метод и дату создать нельзя. Отправления получают
+   подстатус `posting_in_carriage`.
+3. `/v1/carriage/set-postings` заменяет состав, только пока отгрузка `new`. Результат — по каждому отправлению:
+   `POSTING_NOT_FOUND`, `WRONG_DELIVERY_METHOD_OR_DATE`, `POSTING_NOT_ASSEMBLED`, `POSTING_IN_ANOTHER_CARRIAGE`.
+   Убранные отправления возвращаются в `posting_not_in_carriage`.
+4. `/v1/carriage/approve` подтверждает отгрузку: статус `formed`. Документы формируются 30 секунд по часам кабинета:
+   `/v2/posting/fbs/act/check-status` отвечает `in_process`, затем `ready`, а `/v1/carriage/get` — действиями
+   `get_shipping_list` и `get_act_of_acceptance`. Состав — `/v2/posting/fbs/act/get-postings`, текст штрихкода
+   отгрузки — `/v2/posting/fbs/act/get-barcode/text` (`OZN` и ID отгрузки). Когда документы готовы,
+   `/v2/posting/fbs/act/get-pdf` отвечает файлом PDF (`Content-Type: application/pdf`): тестовый лист отгрузки с номером,
+   датой, методом доставки и списком отправлений. До готовности — ошибка 400.
+5. `/v1/carriage/cancel` отменяет отгрузку `new` или `formed`: отправления возвращаются в `posting_not_in_carriage`.
+   Для закрытой отгрузки метод отвечает с текстом ошибки в `error`.
+
+Передачу водителю имитирует управляющее событие `fbsHandover` (ниже). Принятые отправления переходят в
+`delivering` (`posting_transferred_to_courier_service`), их резерв снимается, в списке несобранных они больше не
+видны. Отгрузка становится `closed`. Непринятые отправления выходят из отгрузки и ждут следующую. Отменённое после подтверждения
+отправление едет с отгрузкой, но остаётся отменённым.
+
+Статус `formed`, коды ошибок состава и штрихкод выбраны эмулятором: в описании API их нет.
+
 ## Управляющие события
 
 Как запускать события — в [Тестовый кабинет](cabinet.md#управляющие-события). Для FBS есть:
@@ -271,6 +317,8 @@ PDF синтетический и помечен как тестовый: стр
 ```json
 {"eventId": "fbs-1", "type": "fbsScenario", "shipFailures": 1, "labelFailures": 1, "rejectedMarks": ["0104600000000017..."]}
 {"eventId": "fbs-2", "type": "fbsRequirements", "postingNumber": "12345678-0001-1", "requirements": {"mandatory_mark": [910001], "weight": []}}
+{"eventId": "fbs-3", "type": "fbsHandover", "carriageId": 1000123, "missingPostings": ["12345678-0001-1"]}
+{"eventId": "fbs-4", "type": "fbsMarkChange", "postingNumber": "12345678-0001-1", "exemplarId": 100171, "mark": "0104600000000017..."}
 ```
 
 - `shipFailures` — следующие N сборок будут приняты (200), но отправление останется в `awaiting_packaging` с
@@ -281,6 +329,13 @@ PDF синтетический и помечен как тестовый: стр
 - `fbsRequirements` меняет требования несобранного отправления (только для его товаров). Переданные виды
   заменяются, остальные сохраняются. Виды: `mandatory_mark`, `possible_mark`, `country`, `gtd`, `rnpt`, `weight`,
   `imei`, `jw_uin`.
+- `fbsHandover` — водитель забрал подтверждённую отгрузку. `missingPostings` (необязательно) — отправления, которые
+  не приняли: они выходят из отгрузки.
+- `carriagePassRequired` в `fbsScenario` — новые отгрузки требуют пропуск на въезд: `carriage/get` отдаёт
+  `set_arrival_passes`, пропуск создаётся `/v1/carriage/pass/create` (водитель, телефон, госномер, модель обязательны),
+  его ID появляется в `arrival_pass_ids`.
+- `fbsMarkChange` — продавец меняет КИЗ экземпляра собранного отправления в кабинете, вне Seller API склада. Только
+  для отправления в `awaiting_deliver`; `/v3/posting/fbs/get` затем отдаёт новый КИЗ в `mandatory_mark`.
 
 ## Все методы FBS
 
@@ -293,5 +348,8 @@ PDF синтетический и помечен как тестовый: стр
 | Отправления | `/v4/posting/fbs/unfulfilled/list`, `/v4/posting/fbs/list`, `/v3/posting/fbs/get`, `/v2/posting/fbs/get-by-barcode` |
 | Отмена | `/v1/posting/fbs/cancel-reason`, `/v2/posting/fbs/cancel-reason/list`, `/v2/posting/fbs/cancel`, `/v2/posting/fbs/product/cancel` |
 | Экземпляры и страна | `/v6/fbs/posting/product/exemplar/create-or-get`, `/v5/fbs/posting/product/exemplar/validate`, `/v6/fbs/posting/product/exemplar/set`, `/v5/fbs/posting/product/exemplar/status`, `/v1/fbs/posting/product/exemplar/update`, `/v2/posting/fbs/product/country/list`, `/v2/posting/fbs/product/country/set` |
-| Сборка | `/v4/posting/fbs/ship`, `/v4/posting/fbs/ship/package` |
-| Этикетки | `/v2/posting/fbs/package-label/create`, `/v1/posting/fbs/package-label/get` |
+| Сборка и разделение | `/v4/posting/fbs/ship`, `/v4/posting/fbs/ship/package`, `/v1/posting/fbs/split` |
+| Ограничения пункта приёма | `/v1/posting/fbs/restrictions` — одинаковые для всех отправлений: вес 1–25 000 г, 60 × 60 × 60 см, стоимость до 300 000 ₽ |
+| Пропуск отгрузки | `/v1/carriage/pass/create` |
+| Этикетки | `/v3/posting/fbs/package-label/create`, `/v2/posting/fbs/package-label/get`; устаревшие `/v2/posting/fbs/package-label/create`, `/v1/posting/fbs/package-label/get` |
+| Отгрузки и документы | `/v2/carriage/delivery/list`, `/v1/carriage/create`, `/v1/carriage/set-postings`, `/v1/carriage/approve`, `/v1/carriage/get`, `/v1/carriage/cancel`, `/v2/posting/fbs/act/check-status`, `/v2/posting/fbs/act/get-postings`, `/v2/posting/fbs/act/get-barcode/text`, `/v2/posting/fbs/act/get-pdf` |

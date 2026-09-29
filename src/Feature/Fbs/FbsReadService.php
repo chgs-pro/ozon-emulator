@@ -26,10 +26,19 @@ use const DATE_ATOM;
 /** Read side of FBS: warehouses v2, postings v4 (cursor) and a single posting v3. Shapes follow the pinned contract. */
 final readonly class FbsReadService
 {
-    public const array PATHS = ['/v2/warehouse/list', '/v4/posting/fbs/unfulfilled/list', '/v4/posting/fbs/list', '/v3/posting/fbs/get', '/v2/posting/fbs/get-by-barcode'];
+    public const array PATHS = ['/v2/warehouse/list', '/v4/posting/fbs/unfulfilled/list', '/v4/posting/fbs/list', '/v3/posting/fbs/get', '/v2/posting/fbs/get-by-barcode', '/v1/posting/fbs/restrictions'];
+
+    /**
+     * Limits of the drop-off point every posting of the emulator gets (`/v1/posting/fbs/restrictions`): a typical point, not a
+     * value of a real one. Grams, centimetres, roubles.
+     */
+    public const array RESTRICTIONS = [
+        'max_posting_weight' => 25000.0, 'min_posting_weight' => 1.0, 'width' => 60.0, 'length' => 60.0, 'height' => 60.0,
+        'max_posting_price'  => 300000.0, 'min_posting_price' => 0.0,
+    ];
 
     /** Statuses after which a posting no longer appears in the unfulfilled list. */
-    private const array FINISHED = ['delivered', 'cancelled', 'cancelled_from_split_pending'];
+    private const array FINISHED = ['delivering', 'delivered', 'cancelled', 'cancelled_from_split_pending'];
 
     public function supports(string $path): bool
     {
@@ -46,6 +55,7 @@ final readonly class FbsReadService
             '/v4/posting/fbs/unfulfilled/list' => $this->unfulfilled($state, $warehouses, $input),
             '/v4/posting/fbs/list'             => $this->list($state, $warehouses, $input),
             '/v2/posting/fbs/get-by-barcode'   => $this->byBarcode($state, (string) $input['barcode']),
+            '/v1/posting/fbs/restrictions'     => ['result' => ['posting_number' => (string) FbsExemplarService::posting($state, (string) $input['posting_number'])['posting_number']] + self::RESTRICTIONS],
             default                            => $this->get($state, $warehouses, $input),
         };
     }
@@ -243,7 +253,8 @@ final readonly class FbsReadService
                 'quantity'                                                                      => $line['quantity'], 'price' => ['amount' => $line['price'], 'currency' => 'RUB'], 'imei' => [], 'is_blr_traceable' => false,
                 'is_marketplace_buyout'                                                         => false], $p['products']),
             ...FbsRequirements::v4($p),
-            'is_multibox'          => ($p['multi_box_qty'] ?? 1) > 1, 'multi_box_qty' => $p['multi_box_qty'] ?? 1, 'is_express' => false, 'require_blr_traceable_attrs' => false,
+            // `true` until the posting is assembled with the number of boxes; afterwards `multi_box_qty` keeps it.
+            'is_multibox'          => ($p['multibox'] ?? false) && $p['status'] === 'awaiting_packaging', 'multi_box_qty' => $p['multi_box_qty'] ?? 1, 'is_express' => false, 'require_blr_traceable_attrs' => false,
             'tpl_integration_type' => 'ozon', 'integration_type_flow' => 'ozon', 'delivery_schema' => 'FBS',
             ...(isset($p['cancellation']) ? ['cancellation' => $p['cancellation']] : []),
         ];

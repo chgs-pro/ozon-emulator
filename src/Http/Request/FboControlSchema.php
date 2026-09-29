@@ -45,7 +45,7 @@ final class FboControlSchema extends AbstractInputSchema
         $require(preg_match('/^[1-9][0-9]{0,18}$/D', $id) === 1, 'Invalid Client ID');
         $require(is_string($event['eventId'] ?? null) && preg_match('/^[a-zA-Z0-9._-]{1,100}$/D', $event['eventId']) === 1, 'eventId required');
         $type = $event['type'] ?? '';
-        $require(in_array($type, ['scenario', 'release', 'advance', 'state', 'acceptance', 'reset', 'beta', 'requirements', 'fbsScenario', 'fbsRequirements'], true), 'Unknown control event type');
+        $require(in_array($type, ['scenario', 'release', 'advance', 'state', 'acceptance', 'reset', 'beta', 'requirements', 'fbsScenario', 'fbsRequirements', 'fbsHandover', 'fbsMarkChange', 'orderTags'], true), 'Unknown control event type');
         if ($type === 'scenario') {
             $require(isset(OperationCatalog::METHODS[$event['path'] ?? '']), 'Scenario path must identify a supported async write');
             foreach (['remaining' => [1, 100], 'delaySeconds' => [0, 86400], 'partialCargoCount' => [1, 40]] as $key => [$min, $max]) {
@@ -67,6 +67,13 @@ final class FboControlSchema extends AbstractInputSchema
         if ($type === 'state') {
             $require(is_int($event['orderId'] ?? null) && $event['orderId'] > 0, 'orderId required');
             $require(is_string($event['state'] ?? null) && preg_match('/^[A-Z][A-Z0-9_]{1,79}$/D', $event['state']) === 1, 'Invalid state');
+            if (isset($event['overdueReason'])) {
+                $require($event['state'] === 'OVERDUE' && in_array($event['overdueReason'], ['ORDER_TIMESLOT_EXPIRED', 'ORDER_TIMESLOT_NOT_SELECTED', 'NOT_READY_FOR_PICKUP', 'PICKUP_FAILED', 'UNDEFINED'], true), 'overdueReason must be a SupplyOverdueReasonEnum value of an OVERDUE state');
+            }
+        }
+        if ($type === 'orderTags') {
+            $require(is_int($event['orderId'] ?? null) && $event['orderId'] > 0, 'orderId required');
+            $require(is_bool($event['isVirtual'] ?? null), 'isVirtual must be boolean');
         }
         if ($type === 'acceptance') {
             $require(is_int($event['supplyId'] ?? null) && $event['supplyId'] > 0, 'supplyId required');
@@ -97,6 +104,7 @@ final class FboControlSchema extends AbstractInputSchema
             }
         }
         if ($type === 'fbsScenario') {
+            $require(!isset($event['carriagePassRequired']) || is_bool($event['carriagePassRequired']), 'carriagePassRequired must be boolean');
             foreach (['shipFailures', 'labelFailures'] as $key) {
                 $require(!isset($event[$key]) || (is_int($event[$key]) && $event[$key] >= 0 && $event[$key] <= 100), 'Invalid ' . $key);
             }
@@ -104,6 +112,18 @@ final class FboControlSchema extends AbstractInputSchema
             foreach ($event['rejectedMarks'] ?? [] as $mark) {
                 $require(is_string($mark) && $mark !== '', 'rejectedMarks must contain codes');
             }
+        }
+        if ($type === 'fbsHandover') {
+            $require(is_int($event['carriageId'] ?? null) && $event['carriageId'] > 0, 'carriageId required');
+            $require(!isset($event['missingPostings']) || (is_array($event['missingPostings']) && array_is_list($event['missingPostings'])), 'missingPostings must be a list');
+            foreach ($event['missingPostings'] ?? [] as $number) {
+                $require(is_string($number) && $number !== '', 'missingPostings must contain posting numbers');
+            }
+        }
+        if ($type === 'fbsMarkChange') {
+            $require(is_string($event['postingNumber'] ?? null) && $event['postingNumber'] !== '', 'postingNumber required');
+            $require(is_int($event['exemplarId'] ?? null) && $event['exemplarId'] > 0, 'exemplarId required');
+            $require(is_string($event['mark'] ?? null) && $event['mark'] !== '', 'mark required');
         }
         if ($type === 'fbsRequirements') {
             $require(is_string($event['postingNumber'] ?? null) && $event['postingNumber'] !== '', 'postingNumber required');

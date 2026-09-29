@@ -4404,12 +4404,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpsoftbox/ozon.git",
-                "reference": "eb6e06c92a83953ed0978b67db04752880ee1c03"
+                "reference": "3d28e1dd3d02f1aa17a88f8d48687f135e024e42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpsoftbox/ozon/zipball/eb6e06c92a83953ed0978b67db04752880ee1c03",
-                "reference": "eb6e06c92a83953ed0978b67db04752880ee1c03",
+                "url": "https://api.github.com/repos/phpsoftbox/ozon/zipball/3d28e1dd3d02f1aa17a88f8d48687f135e024e42",
+                "reference": "3d28e1dd3d02f1aa17a88f8d48687f135e024e42",
                 "shasum": ""
             },
             "require": {
@@ -4449,7 +4449,7 @@
                 "issues": "https://github.com/phpsoftbox/ozon/issues",
                 "source": "https://github.com/phpsoftbox/ozon/tree/master"
             },
-            "time": "2026-09-14T20:13:07+00:00"
+            "time": "2026-09-28T16:42:40+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

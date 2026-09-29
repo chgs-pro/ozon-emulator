@@ -131,7 +131,8 @@ PDF синтетический: страница 100 × 150 мм на каждо
 |---|---|---|
 | `scenario` | `path`, `remaining` (по умолчанию 1), `delaySeconds`, `hold`, `fail`, `partialCargoCount` | Меняет поведение следующих асинхронных операций метода: задержка, удержание до `release`, ошибка; `partialCargoCount` — только для создания грузомест, создаст лишь часть |
 | `release` | `operationId` | Снимает удержание, операция завершится при следующем опросе |
-| `state` | `orderId`, `state` | Внешний статус заявки. Вернуть статус назад после передачи на склад нельзя |
+| `state` | `orderId`, `state`, `overdueReason` | Внешний статус заявки. Вернуть статус назад после передачи на склад нельзя. Для `OVERDUE` можно указать причину (`ORDER_TIMESLOT_EXPIRED`, `ORDER_TIMESLOT_NOT_SELECTED`, `NOT_READY_FOR_PICKUP`, `PICKUP_FAILED`, `UNDEFINED`) — она появится в `overdue_reason` поставок в `/v1/supply-order/details` |
+| `orderTags` | `orderId`, `isVirtual` | Заявка через вРЦ: `order_tags.is_virtual` в details, перенос слота, отмена и изменение состава в details запрещены (`ORDER_IS_VIRTUAL`, `SUPPLY_IS_VIRTUAL`); сами методы записи эмулятор по этому признаку не отклоняет |
 | `acceptance` | `supplyId`, `items: [{sku, factQuantity, defectQuantity}]` | Результат приёмки поставки; брака не больше принятого |
 | `requirements` | `supplyId`, `utdUploaded`, `ettnUploaded`, `evsdUploaded` | Загружены ли УПД, ЭТТН, ЭВСД вне Seller API |
 

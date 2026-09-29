@@ -22,16 +22,22 @@ use function rtrim;
 use function sprintf;
 
 /**
- * Posting labels: `/v2/posting/fbs/package-label/create` queues a big and a small label task for the postings,
- * `/v1/posting/fbs/package-label/get` reports `pending` → `in_progress` → `completed` or `error`. The result is fixed when the
+ * Posting labels: `/v3/posting/fbs/package-label/create` (`posting_numbers`, answer `tasks` without `result`) queues a
+ * big and a small label task for the postings, `/v2/posting/fbs/package-label/get` reports `status.code` `pending` →
+ * `in_progress` → `completed` or `error` with `file_url` and `error{code, message}` (the values of `status.code` are not
+ * listed by the documentation: the emulator keeps those of v1). The older `/v2/…/create` and `/v1/…/get` (shut down by Ozon
+ * on 2.11.2026) answer in their own shape until then. The result is fixed when the
  * task completes (`operationDelaySeconds` later by the cabinet clock): postings in `awaiting_deliver` are printed, the others
  * go to `unprinted_postings`. A repeated get returns the same file; the file is a synthetic local test document.
  */
 final readonly class FbsLabelService
 {
-    public const array PATHS = ['/v2/posting/fbs/package-label/create', '/v1/posting/fbs/package-label/get'];
+    public const array PATHS = [
+        '/v3/posting/fbs/package-label/create', '/v2/posting/fbs/package-label/get',
+        '/v2/posting/fbs/package-label/create', '/v1/posting/fbs/package-label/get',
+    ];
 
-    public const array WRITE_PATHS = ['/v2/posting/fbs/package-label/create'];
+    public const array WRITE_PATHS = ['/v3/posting/fbs/package-label/create', '/v2/posting/fbs/package-label/create'];
 
     public function supports(string $path): bool
     {
@@ -40,14 +46,33 @@ final readonly class FbsLabelService
 
     public function handle(CabinetState $state, string $clientId, string $path, array $input, int $now): array
     {
-        return $path === '/v2/posting/fbs/package-label/create' ? $this->create($state, $input['posting_number'], $now) : $this->get($state, $clientId, (int) $input['task_id'], $now);
+        return match ($path) {
+            '/v3/posting/fbs/package-label/create' => ['tasks' => $this->create($state, $input['posting_numbers'] ?? [], $now)],
+            '/v2/posting/fbs/package-label/create' => ['result' => ['tasks' => $this->create($state, $input['posting_number'], $now)]],
+            '/v2/posting/fbs/package-label/get'    => self::v2($this->get($state, $clientId, (int) $input['task_id'], $now)),
+            default                                => ['result' => $this->get($state, $clientId, (int) $input['task_id'], $now)],
+        };
     }
 
-    /** @param list<string> $numbers */
+    /** The v1 result in the shape of `/v2/posting/fbs/package-label/get`. */
+    private static function v2(array $result): array
+    {
+        return [
+            'error'    => ['code' => $result['error'], 'message' => $result['error'] === '' ? '' : 'Labels were not generated: ' . $result['error']],
+            'file_url' => $result['file_url'],
+            'status'   => [
+                'code'                   => $result['status'], 'postings_count' => $result['printed_postings_count'] + $result['unprinted_postings_count'],
+                'printed_postings_count' => $result['printed_postings_count'],
+                'unprinted_postings'     => array_map(static fn (array $row): array => ['posting_number' => $row['posting_number'], 'message' => $row['msg']], $result['unprinted_postings']),
+            ],
+        ];
+    }
+
+    /** @param list<string> $numbers @return list<array{task_id: int, task_type: string}> */
     private function create(CabinetState $state, array $numbers, int $now): array
     {
         if ($numbers === []) {
-            throw new SellerApiException('posting_number required', 400, 3);
+            throw new SellerApiException('posting_numbers required', 400, 3);
         }
         foreach ($numbers as $number) {
             FbsExemplarService::posting($state, (string) $number);
@@ -67,7 +92,7 @@ final readonly class FbsLabelService
         }
         $state->event('fbs.labels.requested', $now, ['task_ids' => array_map(static fn (array $t): int => $t['task_id'], $tasks)]);
 
-        return ['result' => ['tasks' => $tasks]];
+        return $tasks;
     }
 
     private function get(CabinetState $state, string $clientId, int $id, int $now): array
@@ -76,7 +101,7 @@ final readonly class FbsLabelService
         if ($task['result'] === null && $now < $task['ready_at']) {
             $status = $now < $task['created_at'] + ($task['ready_at'] - $task['created_at']) / 2 ? 'pending' : 'in_progress';
 
-            return ['result' => ['error' => '', 'file_url' => '', 'printed_postings_count' => 0, 'status' => $status, 'unprinted_postings' => [], 'unprinted_postings_count' => 0]];
+            return ['error' => '', 'file_url' => '', 'printed_postings_count' => 0, 'status' => $status, 'unprinted_postings' => [], 'unprinted_postings_count' => 0];
         }
         if ($task['result'] === null) {
             $task['result']                         = $this->complete($state, $clientId, $task, $now);
@@ -84,7 +109,7 @@ final readonly class FbsLabelService
             $state->event('fbs.labels.' . $task['result']['status'], $now, ['task_id' => $id]);
         }
 
-        return ['result' => $task['result']];
+        return $task['result'];
     }
 
     private function complete(CabinetState $state, string $clientId, array $task, int $now): array

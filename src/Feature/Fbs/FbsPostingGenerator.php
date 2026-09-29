@@ -10,6 +10,7 @@ use Random\Randomizer;
 
 use function array_column;
 use function array_filter;
+use function array_intersect;
 use function array_slice;
 use function array_sum;
 use function array_values;
@@ -106,6 +107,9 @@ final readonly class FbsPostingGenerator
                 'in_process_at'  => $now, 'shipment_date' => $now + self::SHIPMENT_DELAY_SECONDS,
                 'products'       => $lines, 'requirements' => FbsRequirements::fromConfig($fbs, array_column($lines, 'sku')),
             ];
+            // A multi-box product needs the number of boxes before assembly (`multi_box_qty` of the exemplar set).
+            $posting['multibox_skus']                                   = array_values(array_intersect(array_column($lines, 'sku'), $fbs['multiboxSkus'] ?? []));
+            $posting['multibox']                                        = $posting['multibox_skus'] !== [];
             $posting['available_actions']                               = self::actions($posting);
             $state->data['fbs']['postings'][$posting['posting_number']] = $posting;
             $state->event('fbs.posting.created', $now, ['posting_number' => $posting['posting_number']]);
