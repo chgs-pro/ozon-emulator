@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Cli\AppCommandProvider;
+use App\Runtime\Environment;
 use PhpSoftBox\CliApp\CliApp;
 use PhpSoftBox\CliApp\Command\InMemoryCommandRegistry;
 use PhpSoftBox\CliApp\Config\PackageCommandDiscovery;
@@ -58,4 +59,5 @@ foreach ($providers as $provider) {
     $instance->register($registry);
 }
 
-return new CliApp($registry, new ConsoleIo(), $container);
+// Команды видят то же окружение, что и приложение (APP_ENV из .env), если не передан --environment.
+return new CliApp($registry, new ConsoleIo(), $container, environmentResolver: static fn (): string => Environment::detect()->value);

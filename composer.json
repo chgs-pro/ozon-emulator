@@ -6,30 +6,30 @@
     "require": {
         "php": "^8.5",
         "mongodb/mongodb": "^2.4.1",
-        "phpsoftbox/api": "dev-master",
-        "phpsoftbox/application": "dev-master",
-        "phpsoftbox/auth": "dev-master",
-        "phpsoftbox/cache": "dev-master",
-        "phpsoftbox/cli-app": "dev-master",
-        "phpsoftbox/clock": "dev-master",
-        "phpsoftbox/collection": "dev-master",
-        "phpsoftbox/config": "dev-master",
-        "phpsoftbox/container": "dev-master",
-        "phpsoftbox/env": "dev-master",
-        "phpsoftbox/http-emitter": "dev-master",
-        "phpsoftbox/http-message": "dev-master",
-        "phpsoftbox/mongo": "dev-master",
-        "phpsoftbox/request": "dev-master",
-        "phpsoftbox/resource": "dev-master",
-        "phpsoftbox/router": "dev-master",
-        "phpsoftbox/validator": "dev-master",
+        "phpsoftbox/api": "^1.0",
+        "phpsoftbox/application": "^1.0",
+        "phpsoftbox/auth": "^1.0",
+        "phpsoftbox/cache": "^1.0",
+        "phpsoftbox/cli-app": "^1.0",
+        "phpsoftbox/clock": "^1.0",
+        "phpsoftbox/collection": "^1.0",
+        "phpsoftbox/config": "^1.0",
+        "phpsoftbox/container": "^1.0",
+        "phpsoftbox/env": "^1.0",
+        "phpsoftbox/http-emitter": "^1.0",
+        "phpsoftbox/http-message": "^1.0",
+        "phpsoftbox/mongo": "^1.0",
+        "phpsoftbox/request": "^1.2.1",
+        "phpsoftbox/resource": "^1.0",
+        "phpsoftbox/router": "^1.0",
+        "phpsoftbox/validator": "^1.0",
         "picqer/php-barcode-generator": "^3.3",
         "setasign/fpdf": "^1.9"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.93",
-        "phpsoftbox/cs-fixer": "^1.1.0",
-        "phpsoftbox/ozon": "dev-master",
+        "phpsoftbox/cs-fixer": "^1.2.2",
+        "phpsoftbox/ozon": "^1.0",
         "phpunit/phpunit": "^11.2"
     },
     "autoload": {
@@ -42,7 +42,6 @@
             "App\\Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
         "sort-packages": true

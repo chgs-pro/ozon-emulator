@@ -14,8 +14,8 @@ final readonly class MongoCabinetRepository implements CabinetRepositoryInterfac
 {
     public function __construct(
         private MongoConnectionManagerInterface
-    $mongo)
-    {
+    $mongo,
+    ) {
     }
 
     public function change(string $clientId, callable $operation): mixed

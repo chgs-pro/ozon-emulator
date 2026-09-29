@@ -40,6 +40,7 @@ final class FbsCancellationTest extends FboTestCase
         }
         $this->call('/v2/products/stocks', ['stocks' => $stocks]);
         $random = new Randomizer(new Mt19937(42));
+
         $this->repository->change('1001', fn (CabinetState $state): array => $this->container->get(FbsPostingGenerator::class)->generate($state, 10, $this->clock->timestamp, $random));
     }
 

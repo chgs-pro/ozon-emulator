@@ -73,8 +73,7 @@ Composer; без них можно поставить Workspace вручную �
 1. Установите [установщик PhpSoftBox](https://github.com/phpsoftbox/installer):
 
    ```bash
-   composer global require phpsoftbox/installer:dev-master phpsoftbox/cli-app:dev-master \
-     phpsoftbox/error-formatter:dev-master --prefer-stable
+   composer global require phpsoftbox/installer
    export PATH="$(composer -q global config bin-dir --absolute):$PATH"
    ```
 

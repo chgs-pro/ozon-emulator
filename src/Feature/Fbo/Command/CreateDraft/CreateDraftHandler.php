@@ -11,8 +11,8 @@ final readonly class CreateDraftHandler
 {
     public function __construct(
         private DraftPlanner
-    $planner)
-    {
+    $planner,
+    ) {
     }
     public function handle(CabinetState $state, CreateDraftCommand $command): array
     {

@@ -17,8 +17,8 @@ final readonly class LabelDownloadAction
 {
     public function __construct(
         private LabelService
-    $labels)
-    {
+    $labels,
+    ) {
     }
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {

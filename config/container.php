@@ -14,7 +14,9 @@ $builder->useAutowiring(true);
 $builder->useAttributes(false);
 $builder->addDefinitions(require __DIR__ . '/dependencies.php');
 if (Environment::detect() === Environment::PROD) {
-    $builder->enableCompilation(new Path(dirname(__DIR__))->cachePath('di'));
+    $path = new Path(dirname(__DIR__));
+
+    $builder->enableCompilation($path->ensureDirectory($path->cachePath('di')));
 }
 
 return $builder->build();

@@ -10,8 +10,8 @@ final readonly class MongoTokenRepository implements TokenRepositoryInterface
 {
     public function __construct(
         private MongoConnectionManagerInterface
-    $mongo)
-    {
+    $mongo,
+    ) {
     }
 
     public function insert(TokenRecord $token): void

@@ -8,7 +8,7 @@ final readonly class AdvanceSupplyCommand
 {
     public function __construct(
         public int
-    $now)
-    {
+    $now,
+    ) {
     }
 }
