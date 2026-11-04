@@ -207,7 +207,7 @@ final class FbsAssemblyTest extends FboTestCase
         self::assertSame(['awaiting_packaging', self::NUMBER], [$first['status'], $first['parent_posting_number']]);
         self::assertSame($this->mark('S1'), $first['product_exemplars']['products'][0]['exemplars'][0]['mandatory_mark']);
         self::assertSame($this->mark('S2'), $second['product_exemplars']['products'][0]['exemplars'][0]['mandatory_mark']);
-        $unfulfilled = array_column($this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 100])['postings'], 'posting_number');
+        $unfulfilled = array_column($this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 100, 'filter' => ['cutoff_from' => '2000-01-01T00:00:00Z', 'cutoff_to' => '2100-01-01T00:00:00Z']])['postings'], 'posting_number');
         self::assertNotContains(self::NUMBER, $unfulfilled);
         self::assertContains('10000001-0001-3', $unfulfilled);
     }

@@ -7,6 +7,12 @@
 - **минорная** (1.1.0) — новые методы Seller API и возможности, прежние сценарии работают как раньше;
 - **патч** (1.0.1) — исправления ошибок и документации.
 
+## [1.2.1] — 2026-11-04
+
+- FBS: `/v4/posting/fbs/unfulfilled/list` без `filter` отклоняется ошибкой `400`
+  `Request validation error: invalid PostingFbsUnfulfilledListRequest.Filter: value is required` — как в Seller API
+  с ноября 2026.
+
 ## [1.2.0] — 2026-09-29
 
 - Зависимости `phpsoftbox/*` — стабильные `^1.0` (`phpsoftbox/request` `^1.2.1`) вместо `dev-master`, без

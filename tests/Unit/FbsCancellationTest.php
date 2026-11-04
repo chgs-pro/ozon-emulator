@@ -142,7 +142,7 @@ final class FbsCancellationTest extends FboTestCase
 
     private function postings(): array
     {
-        return $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 100])['postings'];
+        return $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 100, 'filter' => ['cutoff_from' => '2000-01-01T00:00:00Z', 'cutoff_to' => '2100-01-01T00:00:00Z']])['postings'];
     }
 
     private function freeStock(int $sku, int $warehouseId): int
