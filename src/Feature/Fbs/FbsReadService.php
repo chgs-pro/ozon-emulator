@@ -17,6 +17,7 @@ use function count;
 use function ctype_digit;
 use function gmdate;
 use function in_array;
+use function is_array;
 use function sprintf;
 use function strtotime;
 use function usort;
@@ -105,7 +106,11 @@ final readonly class FbsReadService
 
     private function unfulfilled(CabinetState $state, array $warehouses, array $input): array
     {
-        $filter = $input['filter'] ?? [];
+        // Ozon requires the filter since 11.2026: without it the request is refused, as by the Seller API.
+        if (!is_array($input['filter'] ?? null)) {
+            throw new SellerApiException('Request validation error: invalid PostingFbsUnfulfilledListRequest.Filter: value is required', 400, 3);
+        }
+        $filter = $input['filter'];
         if ((isset($filter['cutoff_from']) || isset($filter['cutoff_to'])) && (isset($filter['delivering_date_from']) || isset($filter['delivering_date_to']))) {
             throw new SellerApiException('Use either cutoff or delivering_date period', 400, 3);
         }

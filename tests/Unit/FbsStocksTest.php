@@ -140,7 +140,7 @@ final class FbsStocksTest extends FboTestCase
 
         $this->stocks([['product_id' => 810001, 'warehouse_id' => 1020001, 'stock' => 4], ['product_id' => 810002, 'warehouse_id' => 1020002, 'stock' => 1]]);
         $created  = $this->generate(20);
-        $postings = $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 100])['postings'];
+        $postings = $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 100, 'filter' => ['cutoff_from' => '2000-01-01T00:00:00Z', 'cutoff_to' => '2100-01-01T00:00:00Z']])['postings'];
         self::assertCount(count($created), $postings);
         $ordered = [];
         foreach ($postings as $posting) {

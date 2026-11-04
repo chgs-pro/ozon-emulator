@@ -50,8 +50,15 @@ final class FbsPostingsTest extends FboTestCase
     {
         $created = $this->generate(5);
 
-        $first  = $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 3]);
-        $second = $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 3, 'cursor' => $first['cursor']]);
+        $first  = $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 3, 'filter' => ['cutoff_from' => '2000-01-01T00:00:00Z', 'cutoff_to' => '2100-01-01T00:00:00Z']]);
+        $second = $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 3, 'cursor' => $first['cursor'], 'filter' => ['cutoff_from' => '2000-01-01T00:00:00Z', 'cutoff_to' => '2100-01-01T00:00:00Z']]);
+        // As the Seller API since 11.2026: the filter is required.
+        try {
+            $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 3]);
+            self::fail('The list without a filter must be rejected');
+        } catch (SellerApiException $error) {
+            self::assertSame([400, 'Request validation error: invalid PostingFbsUnfulfilledListRequest.Filter: value is required'], [$error->status, $error->getMessage()]);
+        }
 
         self::assertSame(5, $first['count']);
         self::assertTrue($first['has_next']);
@@ -129,7 +136,7 @@ final class FbsPostingsTest extends FboTestCase
         $this->configuration['fbs']['enabled'] = false;
         $this->configure();
         try {
-            $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 10]);
+            $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 10, 'filter' => ['cutoff_from' => '2000-01-01T00:00:00Z', 'cutoff_to' => '2100-01-01T00:00:00Z']]);
             self::fail('FBS methods require the FBS section');
         } catch (SellerApiException $error) {
             self::assertSame(403, $error->status);
@@ -159,6 +166,6 @@ final class FbsPostingsTest extends FboTestCase
 
     private function all(): array
     {
-        return $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 100])['postings'];
+        return $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 100, 'filter' => ['cutoff_from' => '2000-01-01T00:00:00Z', 'cutoff_to' => '2100-01-01T00:00:00Z']])['postings'];
     }
 }

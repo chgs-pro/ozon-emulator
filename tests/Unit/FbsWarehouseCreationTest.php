@@ -140,7 +140,7 @@ final class FbsWarehouseCreationTest extends FboTestCase
         $random = new Randomizer(new Mt19937(7));
 
         $this->repository->change('1001', fn (CabinetState $state): array => $this->container->get(FbsPostingGenerator::class)->generate($state, 1, $this->clock->timestamp, $random));
-        $posting = $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 10])['postings'][0];
+        $posting = $this->call('/v4/posting/fbs/unfulfilled/list', ['limit' => 10, 'filter' => ['cutoff_from' => '2000-01-01T00:00:00Z', 'cutoff_to' => '2100-01-01T00:00:00Z']])['postings'][0];
         self::assertSame($id, $posting['delivery_method']['warehouse_id']);
         self::assertSame('Ozon Логистика, курьер забирает, Склад курьерский', $posting['delivery_method']['name']);
         self::assertSame('Склад курьерский', $posting['delivery_method']['warehouse']);
